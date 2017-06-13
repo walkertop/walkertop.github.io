@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-09T03:07:18.000Z</updated>
+  <updated>2017-06-13T08:11:47.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《把时间当作朋友》读书笔记</title>
+    <link href="http://yoursite.com/title/"/>
+    <id>http://yoursite.com/title/</id>
+    <published>2017-03-13T08:10:53.000Z</published>
+    <updated>2017-06-13T08:11:47.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;把时间当做朋友&quot;&gt;&lt;a href=&quot;#把时间当做朋友&quot; class=&quot;headerlink&quot; title=&quot;把时间当做朋友&quot;&gt;&lt;/a&gt;把时间当做朋友&lt;/h1&gt;&lt;p&gt;##一、单向成立&lt;/p&gt;
+&lt;p&gt;####名人的成功经验有毒&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;正确的顺
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>对，我就是RunLoop</title>
