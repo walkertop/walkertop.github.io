@@ -34,6 +34,24 @@
   </entry>
   
   <entry>
+    <title>一篇文章全吃透—史上最全YYModel的使用详解</title>
+    <link href="http://yoursite.com/2016/07/19/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%85%A8%E5%90%83%E9%80%8F%E2%80%94%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8YYModel%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/"/>
+    <id>http://yoursite.com/2016/07/19/一篇文章全吃透—史上最全YYModel的使用详解/</id>
+    <published>2016-07-19T04:32:49.000Z</published>
+    <updated>2017-06-19T04:35:07.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;开篇说明：&lt;/strong&gt;&lt;br&gt;虽然网上有很多讲解YYModel使用方法的文章，包括YYModel作者也在github上对其做了使用说明。&lt;br&gt;但在我实际使用过程中，依然发现文档的不完善，比如对于复杂的模型（如多层嵌套）讲解的仍不透彻，同时本文也会介绍
+    
+    </summary>
+    
+    
+      <category term="YYModel" scheme="http://yoursite.com/tags/YYModel/"/>
+    
+  </entry>
+  
+  <entry>
     <title>KVC和runtime字典转模型对比分析</title>
     <link href="http://yoursite.com/2016/06/19/KVC%E5%92%8Cruntime%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90/"/>
     <id>http://yoursite.com/2016/06/19/KVC和runtime字典转模型对比分析/</id>
@@ -89,6 +107,28 @@
     
     
       <category term="setter/getter" scheme="http://yoursite.com/tags/setter-getter/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>三分钟教会你runtime获取属性和成员变量</title>
+    <link href="http://yoursite.com/2016/05/09/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/"/>
+    <id>http://yoursite.com/2016/05/09/三分钟教会你runtime获取属性和成员变量/</id>
+    <published>2016-05-09T02:10:59.000Z</published>
+    <updated>2017-06-19T04:32:21.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;成员变量和属性到底是什么？&lt;/li&gt;
+&lt;li&gt;怎么通过runtime获取属性？&lt;/li&gt;
+&lt;li&gt;怎么
+    
+    </summary>
+    
+    
+      <category term="runtime" scheme="http://yoursite.com/tags/runtime/"/>
     
   </entry>
   
