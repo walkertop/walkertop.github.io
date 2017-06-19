@@ -34,24 +34,6 @@
   </entry>
   
   <entry>
-    <title>深入runtime探究KVO</title>
-    <link href="http://yoursite.com/2016/09/29/%E6%B7%B1%E5%85%A5runtime%E6%8E%A2%E7%A9%B6KVO/"/>
-    <id>http://yoursite.com/2016/09/29/深入runtime探究KVO/</id>
-    <published>2016-09-29T04:18:27.000Z</published>
-    <updated>2017-06-19T04:20:00.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Objective-C 中的键(key)-值(value)观察(KVO)并不是什么新鲜事物,它来源于设计模式中的&lt;code&gt;观察者模式&lt;/c
-    
-    </summary>
-    
-    
-      <category term="runtime, KVO" scheme="http://yoursite.com/tags/runtime-KVO/"/>
-    
-  </entry>
-  
-  <entry>
     <title>对，我就是RunLoop</title>
     <link href="http://yoursite.com/2016/06/08/runloop/"/>
     <id>http://yoursite.com/2016/06/08/runloop/</id>
@@ -67,6 +49,24 @@
     
     
       <category term="iOS RunLoop" scheme="http://yoursite.com/tags/iOS-RunLoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RAC+MVVM封装的网络请求</title>
+    <link href="http://yoursite.com/2016/03/22/RAC-MVVM%E5%B0%81%E8%A3%85%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"/>
+    <id>http://yoursite.com/2016/03/22/RAC-MVVM封装的网络请求/</id>
+    <published>2016-03-22T04:11:29.000Z</published>
+    <updated>2017-06-19T04:21:23.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-MVVM-代替-MVC-原因&quot;&gt;&lt;a href=&quot;#1-MVVM-代替-MVC-原因&quot; class=&quot;headerlink&quot; title=&quot;1.MVVM 代替 MVC 原因&quot;&gt;&lt;/a&gt;1.MVVM 代替 MVC 原因&lt;/h3&gt;&lt;p&gt;无论MVC还是MVVM，包括
+    
+    </summary>
+    
+    
+      <category term="RAC MVVM" scheme="http://yoursite.com/tags/RAC-MVVM/"/>
     
   </entry>
   
@@ -160,6 +160,42 @@
     
     
       <category term="成员变量 属性" scheme="http://yoursite.com/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>category和extension史上最全攻略</title>
+    <link href="http://yoursite.com/2015/09/29/category%E5%92%8Cextension%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8%E6%94%BB%E7%95%A5/"/>
+    <id>http://yoursite.com/2015/09/29/category和extension史上最全攻略/</id>
+    <published>2015-09-29T04:23:39.000Z</published>
+    <updated>2017-06-19T04:24:48.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景：&quot;&gt;&lt;a href=&quot;#背景：&quot; class=&quot;headerlink&quot; title=&quot;背景：&quot;&gt;&lt;/a&gt;背景：&lt;/h2&gt;&lt;p&gt;在大型项目，企业级开发中多人同时维护同一个类，此时程序员A因为某项需求只想给当前类&lt;code&gt;currentClass&lt;/code&gt;
+    
+    </summary>
+    
+    
+      <category term="category" scheme="http://yoursite.com/tags/category/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入runtime探究KVO</title>
+    <link href="http://yoursite.com/2015/09/29/%E6%B7%B1%E5%85%A5runtime%E6%8E%A2%E7%A9%B6KVO/"/>
+    <id>http://yoursite.com/2015/09/29/深入runtime探究KVO/</id>
+    <published>2015-09-29T04:18:27.000Z</published>
+    <updated>2017-06-19T04:22:25.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Objective-C 中的键(key)-值(value)观察(KVO)并不是什么新鲜事物,它来源于设计模式中的&lt;code&gt;观察者模式&lt;/c
+    
+    </summary>
+    
+    
+      <category term="runtime, KVO" scheme="http://yoursite.com/tags/runtime-KVO/"/>
     
   </entry>
   

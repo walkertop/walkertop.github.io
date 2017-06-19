@@ -83,7 +83,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="walkertop, iOS, better, GTD, 效率" />
+  <meta name="keywords" content="category," />
 
 
 
@@ -101,16 +101,17 @@
 
 
 
-<meta name="description" content="写在前面：本文不是讲解masonry的基础使用，而是希望借着masonry的源码解析给大家渗透链式编程的思想和展示其具体实现。现在RAC（ReactiveCocoa）很火，借着这个成熟的案例让大家窥其一斑，作者在此抛砖引用，供大家交流参考。 一、NSLayoutConstraint约束实际iOS用NSLayoutConstraint对控件进行约束。比如：想要让子控件的顶部距离父控件顶部10pt，">
+<meta name="description" content="背景：在大型项目，企业级开发中多人同时维护同一个类，此时程序员A因为某项需求只想给当前类currentClass添加一个方法newMethod，那该怎么办呢？最简单粗暴的方式是把newMethod添加到currentClass中，然后直接实现该方法就OK了。但考虑到OC是单继承的，子类可以拥有父类的方法和属性。如果把newMethod写到currentClass中，那么currentClass的子">
+<meta name="keywords" content="category">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RAC之masonry源码深度解析">
-<meta property="og:url" content="http://yoursite.com/2016/03/19/RAC之masonry源码深度解析/index.html">
+<meta property="og:title" content="category和extension史上最全攻略">
+<meta property="og:url" content="http://yoursite.com/2015/09/29/category和extension史上最全攻略/index.html">
 <meta property="og:site_name" content="Walker小站">
-<meta property="og:description" content="写在前面：本文不是讲解masonry的基础使用，而是希望借着masonry的源码解析给大家渗透链式编程的思想和展示其具体实现。现在RAC（ReactiveCocoa）很火，借着这个成熟的案例让大家窥其一斑，作者在此抛砖引用，供大家交流参考。 一、NSLayoutConstraint约束实际iOS用NSLayoutConstraint对控件进行约束。比如：想要让子控件的顶部距离父控件顶部10pt，">
-<meta property="og:updated_time" content="2017-06-19T03:59:42.000Z">
+<meta property="og:description" content="背景：在大型项目，企业级开发中多人同时维护同一个类，此时程序员A因为某项需求只想给当前类currentClass添加一个方法newMethod，那该怎么办呢？最简单粗暴的方式是把newMethod添加到currentClass中，然后直接实现该方法就OK了。但考虑到OC是单继承的，子类可以拥有父类的方法和属性。如果把newMethod写到currentClass中，那么currentClass的子">
+<meta property="og:updated_time" content="2017-06-19T04:24:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RAC之masonry源码深度解析">
-<meta name="twitter:description" content="写在前面：本文不是讲解masonry的基础使用，而是希望借着masonry的源码解析给大家渗透链式编程的思想和展示其具体实现。现在RAC（ReactiveCocoa）很火，借着这个成熟的案例让大家窥其一斑，作者在此抛砖引用，供大家交流参考。 一、NSLayoutConstraint约束实际iOS用NSLayoutConstraint对控件进行约束。比如：想要让子控件的顶部距离父控件顶部10pt，">
+<meta name="twitter:title" content="category和extension史上最全攻略">
+<meta name="twitter:description" content="背景：在大型项目，企业级开发中多人同时维护同一个类，此时程序员A因为某项需求只想给当前类currentClass添加一个方法newMethod，那该怎么办呢？最简单粗暴的方式是把newMethod添加到currentClass中，然后直接实现该方法就OK了。但考虑到OC是单继承的，子类可以拥有父类的方法和属性。如果把newMethod写到currentClass中，那么currentClass的子">
 
 
 
@@ -138,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/03/19/RAC之masonry源码深度解析/"/>
+  <link rel="canonical" href="http://yoursite.com/2015/09/29/category和extension史上最全攻略/"/>
 
 
 
 
 
-  <title>RAC之masonry源码深度解析 | Walker小站</title>
+  <title>category和extension史上最全攻略 | Walker小站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -307,7 +308,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/19/RAC之masonry源码深度解析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/09/29/category和extension史上最全攻略/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Walker Guo">
@@ -324,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">RAC之masonry源码深度解析</h1>
+          <h1 class="post-title" itemprop="name headline">category和extension史上最全攻略</h1>
         
 
         <div class="post-meta">
@@ -336,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-19T11:52:58+08:00">
-                2016-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-29T12:23:39+08:00">
+                2015-09-29
               </time>
             
 
@@ -371,74 +372,46 @@
       
 
       
-        <hr>
-<p>写在前面：<br>本文不是讲解masonry的基础使用，而是希望借着masonry的源码解析给大家渗透链式编程的思想和展示其具体实现。<br>现在RAC（ReactiveCocoa）很火，借着这个成熟的案例让大家窥其一斑，作者在此抛砖引用，供大家交流参考。</p>
-<h1 id="一、NSLayoutConstraint约束"><a href="#一、NSLayoutConstraint约束" class="headerlink" title="一、NSLayoutConstraint约束"></a><strong>一、NSLayoutConstraint约束</strong></h1><p>实际iOS用<code>NSLayoutConstraint</code>对控件进行约束。比如：想要让子控件的顶部距离父控件顶部10pt，添加约束的实际条件就是满足<code>subView.top = superView.top * 1 + 10</code>这个公式就可以了。<br><code>NSLayoutConstraint</code>的实际就是对该公式的代码解释，代码如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:subView</div><div class="line">                                 attribute:NSLayoutAttributeTop</div><div class="line">                                 relatedBy:NSLayoutRelationEqual</div><div class="line">                                    toItem:self.view</div><div class="line">                                 attribute:NSLayoutAttributeTop</div><div class="line">                                multiplier:1.0</div><div class="line">                                                                   constant:padding.top];</div><div class="line">    [self.view addConstraints:topConstraint];</div></pre></td></tr></table></figure>
-<p>但我们需要对控件的top,bottom,left,right进行约束就特别麻烦。在OC中有一个库<code>Masonry</code>对<code>NSLayoutConstraint</code>进行了封装，<strong><em>**</em></strong>（<strong><strong>Swift</strong></strong>中使用<strong><strong>SnapKit</strong></strong>，<strong><strong>SnapKit</strong></strong>其实就是<strong><strong>Masonry</strong></strong>的<strong><strong>Swift</strong></strong>版本，实现思路大体一致。）<strong><em>**</em></strong></p>
-<h1 id="二：masonry介绍"><a href="#二：masonry介绍" class="headerlink" title="二：masonry介绍"></a>二：masonry介绍</h1><p>masonry是iOS布局控件的轻量级框架。其原理是通过链式调用的方式对<code>NSLayoutConstraint</code>进行封装，简化了控件的约束方式。</p>
-<p>抓住两头：<br>其实massory最终还是利用苹果官方提供的<code>NSLayoutConstraint</code>，只是利用链式编程的方式进一步封装。</p>
+        <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>在大型项目，企业级开发中多人同时维护同一个类，此时程序员A因为某项需求只想给当前类<code>currentClass</code>添加一个方法<code>newMethod</code>，那该怎么办呢？<br>最简单粗暴的方式是把<code>newMethod</code>添加到<code>currentClass</code>中，然后直接实现该方法就OK了。<br>但考虑到OC是单继承的，子类可以拥有父类的方法和属性。<br>如果把<code>newMethod</code>写到<code>currentClass</code>中，那么<code>currentClass</code>的子类也会拥有<code>newMethod</code>。但真正的需求是只需要<code>currentClass</code>拥有<code>newMethod</code>，而<code>currentClass</code>的子类不会拥有。<br>苹果为了解决这个问题，就引入了分类（Category）的概念。</p>
+<h2 id="分类（Category）："><a href="#分类（Category）：" class="headerlink" title="分类（Category）："></a>分类（Category）：</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>分类（Category）是OC中的特有语法，它是表示一个指向分类的结构体的指针。原则上它只能增加方法，不能增加成员（实例）变量。具体原因看源码组成:</p>
+<h3 id="Category源码："><a href="#Category源码：" class="headerlink" title="Category源码："></a>Category源码：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Category</div><div class="line">Category 是表示一个指向分类的结构体的指针，其定义如下：</div><div class="line">typedef struct objc_category *Category;</div><div class="line">struct objc_category &#123;</div><div class="line">  char *category_name                          OBJC2_UNAVAILABLE; // 分类名</div><div class="line">  char *class_name                             OBJC2_UNAVAILABLE; // 分类所属的类名</div><div class="line">  struct objc_method_list *instance_methods    OBJC2_UNAVAILABLE; // 实例方法列表</div><div class="line">  struct objc_method_list *class_methods       OBJC2_UNAVAILABLE; // 类方法列表</div><div class="line">  struct objc_protocol_list *protocols         OBJC2_UNAVAILABLE; // 分类所实现的协议列表</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">通过上面我们可以发现，这个结构体主要包含了分类定义的实例方法与类方法，其中instance_methods 列表是 objc_class 中方法列表的一个子集，而class_methods列表是元类方法列表的一个子集。</div><div class="line">但这个结构体里面</div><div class="line"></div><div class="line">根本没有属性列表，</div><div class="line">根本没有属性列表，</div><div class="line">根本没有属性列表。</div></pre></td></tr></table></figure>
 <blockquote>
-<p>接下来思考两个问题</p>
-<ol>
-<li>怎么通过封装？</li>
-<li>链式编程来实现约束的添加的？</li>
-</ol>
+<p><strong>注意</strong>：<br>1.分类是用于给原有类添加方法的,因为分类的结构体指针中，没有属性列表，只有方法列表。所以&lt; <strong>原则上讲它只能添加方法, 不能添加属性(成员变量),实际上可以通过其它方式添加属性</strong>&gt; ;<br>2.分类中的可以写@property, 但不会生成<code>setter/getter</code>方法, 也不会生成实现以及私有的成员变量（编译时会报警告）;<br>3.可以在分类中访问原有类中.h中的属性;<br>4.如果分类中有和原有类同名的方法, 会优先调用分类中的方法, 就是说会忽略原有类的方法。所以同名方法调用的优先级为 <code>分类 &gt; 本类 &gt; 父类</code>。因此在开发中尽量不要覆盖原有类;<br>5.如果多个分类中都有和原有类中同名的方法, 那么调用该方法的时候执行谁由编译器决定；编译器会执行最后一个参与编译的分类中的方法。</p>
 </blockquote>
-<p>接下来我们就对masonry的封装做进一步解释。</p>
-<h2 id="1-masonry添加约束的代码实现"><a href="#1-masonry添加约束的代码实现" class="headerlink" title="1.masonry添加约束的代码实现"></a>1.masonry添加约束的代码实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    UIView *subView = [[UIView alloc]init];</div><div class="line">    subView.backgroundColor = [UIColor purpleColor];</div><div class="line">    </div><div class="line">    //先添加控制，后设置约束，不然找不到约束的依赖，会报错。</div><div class="line">    [self.view addSubview:subView];</div><div class="line">    [subView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</div><div class="line">        make.left.top.equalTo(@20);</div><div class="line">        make.right.bottom.equalTo(@-10);</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-masonry方法执行步骤解析："><a href="#2-masonry方法执行步骤解析：" class="headerlink" title="2.masonry方法执行步骤解析："></a>2.masonry方法执行步骤解析：</h2><blockquote>
-<ul>
-<li>子控件调用<code>mas_makeConstraints</code>方法，<code>mas_makeConstraints</code>方法有个block参数（返回值为void,参数为<code>MASContraintMaker</code>的实例对象make）；</li>
-<li>block作为方法的参数就是隐式调用（block并没有真正调用，需要在方法内部，block()调用一次，才会真正执行block）；</li>
-<li>block的有一个MASContraintMaker类的实例make作为参数，让make去添加约束；</li>
-<li>MASContraintMaker类中有个可变数组的属性，用于保存约束；</li>
-<li>执行<code>mas_makeConstraints</code>传入进行的block；</li>
-<li>遍历数组中的约束，完成约束的安装；</li>
-</ul>
-</blockquote>
-<hr>
-<p>以上只是文字描述了执行的大致步骤，具体的代码实现是怎么样的呢？<br>我们接下里通过三个问题来展开。</p>
-<h2 id="3-疑问"><a href="#3-疑问" class="headerlink" title="3.疑问"></a>3.疑问</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; 1. make的点语法代表什么意思？</div><div class="line">&gt; 2. 为什么可以连续用点语法？</div><div class="line">&gt; 3. 具体代码解析是什么样的？</div></pre></td></tr></table></figure>
-<hr>
-<h3 id="问题一：make的点语法代表什么意思？"><a href="#问题一：make的点语法代表什么意思？" class="headerlink" title="问题一：make的点语法代表什么意思？"></a>问题一：make的点语法代表什么意思？</h3><p><code>make.left.top.equalTo(@20);</code></p>
-<p>实质就是<code>MASContraintMaker</code>类的实例对象make调用了属性的getterter方法。<br>扒开源码我们会看到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@interface MASConstraintMaker : NSObject</div><div class="line"></div><div class="line">@property (nonatomic, strong, readonly) MASConstraint *left;</div><div class="line">@property (nonatomic, strong, readonly) MASConstraint *top;</div><div class="line">//省略了bottom,right，baseline等属性。</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">//getter方法，返回的是MASConstraint对象，getter方法调用 addConstraintWithLayoutAttribute:</div><div class="line">- (MASConstraint *)left &#123;</div><div class="line">    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeLeft];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//返回的是MASConstraint对象，接着调用constraint: addConstraintWithLayoutAttribute:方法</div><div class="line">- (MASConstraint *)addConstraintWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute &#123;</div><div class="line">    return [self constraint:nil addConstraintWithLayoutAttribute:layoutAttribute];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (MASConstraint *)constraint:(MASConstraint *)constraint addConstraintWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute &#123;</div><div class="line">    MASViewAttribute *viewAttribute = [[MASViewAttribute alloc] initWithView:self.view layoutAttribute:layoutAttribute];</div><div class="line">    MASViewConstraint *newConstraint = [[MASViewConstraint alloc] initWithFirstViewAttribute:viewAttribute];</div><div class="line">    if ([constraint isKindOfClass:MASViewConstraint.class]) &#123;</div><div class="line">        //replace with composite constraint</div><div class="line">        NSArray *children = @[constraint, newConstraint];</div><div class="line">        MASCompositeConstraint *compositeConstraint = [[MASCompositeConstraint alloc] initWithChildren:children];</div><div class="line">        compositeConstraint.delegate = self;</div><div class="line">        [self constraint:constraint shouldBeReplacedWithConstraint:compositeConstraint];</div><div class="line">        return compositeConstraint;</div><div class="line">    &#125;</div><div class="line">    if (!constraint) &#123;</div><div class="line">        newConstraint.delegate = self;</div><div class="line">        </div><div class="line">        //</div><div class="line">        [self.constraints addObject:newConstraint];</div><div class="line">    &#125;</div><div class="line">    return newConstraint;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="问题二：为什么可以连续用点语法？"><a href="#问题二：为什么可以连续用点语法？" class="headerlink" title="问题二：为什么可以连续用点语法？"></a>问题二：为什么可以连续用点语法？</h3><blockquote>
-<p><strong>链式编程的核心：</strong><br>每个点语法实际调用的getter方法，getter方法的返回值为实例对象本身，然后继续调用getter方法，就成为链式了。<br>结合代码进行具体解释：<code>make.left.top.equalTo(@10);</code><br>我们对其分开解释：点语法返回的时一个新的约束newConstraint。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">`make.left.top.equalTo(@10);`</div><div class="line">//分开写就为</div><div class="line">newConstraint1 = make.left;</div><div class="line">newConstraint2 = newConstraint1.top;</div><div class="line">newConstraint2.equalTo(@10);</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (MASConstraint * (^)(id))equalTo &#123;</div><div class="line">    return ^id(id attribute) &#123;</div><div class="line">        return self.equalToWithRelation(attribute, NSLayoutRelationEqual);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="问题三：整个方法的具体调用步骤是什么样的？"><a href="#问题三：整个方法的具体调用步骤是什么样的？" class="headerlink" title="问题三：整个方法的具体调用步骤是什么样的？"></a>问题三：整个方法的具体调用步骤是什么样的？</h3><p>首先解释下<code>MASConstraintMaker</code>类：</p>
+<h3 id="分类格式："><a href="#分类格式：" class="headerlink" title="分类格式："></a>分类格式：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@interface 待扩展的类（分类的名称）</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation 待扩展的名称（分类的名称）</div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="实际代码如下："><a href="#实际代码如下：" class="headerlink" title="实际代码如下："></a>实际代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//  Programmer+Category.h文件中</div><div class="line">@interface Programmer (Category)</div><div class="line"></div><div class="line">@property(nonatomic,copy) NSString *nameWithSetterGetter;           //设置setter/getter方法的属性</div><div class="line"></div><div class="line">@property(nonatomic,copy) NSString *nameWithoutSetterGetter;        //不设置setter/getter方法的属性（注意是可以写在这，而且编译只会报警告，运行不报错）</div><div class="line"></div><div class="line">- (void) programCategoryMethod;                                     //分类方法</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">//  Programmer+Category.m文件中</div></pre></td></tr></table></figure>
+<p><strong>那么问题来了：</strong></p>
 <blockquote>
-<p><code>MASConstraintMaker</code>类就是一个工厂类，负责创建<code>MASConstraint</code>类型的对象（依赖于<code>MASConstraint</code>接口，而不依赖于具体实现）</p>
+<p>为什么在分类中声明属性时，运行不会出错呢？<br>既然分类不让添加属性，那为什么我写了@property仍然还以编译通过呢？</p>
+</blockquote>
+<p> <strong>接下来我们探究下分类不能添加属性的实质原因：</strong></p>
+<blockquote>
+<p>我们知道在一个类中用@property声明属性，编译器会自动帮我们生成<code>_成员变量</code>和<code>setter/getter</code>，但分类的指针结构体中，根本没有属性列表。所以在分类中用@property声明属性，既无法生成<code>_成员变量</code>也无法生成<code>setter/getter</code>。<br>因此结论是：我们可以用@property声明属性，编译和运行都会通过，只要不使用程序也不会崩溃。但如果调用了<code>_成员变量</code>和<code>setter/getter</code>方法，报错就在所难免了。</p>
 </blockquote>
 <hr>
 <blockquote>
-<p><strong>粗略步骤：</strong></p>
-<ol>
-<li>UIView的类调用<code>mas_makeConstraints</code>方法</li>
-<li><code>mas_makeConstraints</code>有个block参数，会做隐式回调</li>
-<li>获得约束数组，通过install安装约束。</li>
-</ol>
+<p><strong>报错原因如下</strong></p>
 </blockquote>
-<h4 id="1-mas-makeConstraints方法解析"><a href="#1-mas-makeConstraints方法解析" class="headerlink" title="1.mas_makeConstraints方法解析"></a>1.<code>mas_makeConstraints</code>方法解析</h4><p>用户是UIView调用扩展的<code>UIView+MASAdditions</code>分类的<code>mas_makeConstraints</code>方法来为当前视图添加约束的。<br>mas_makeConstraints方法的返回值是一个数组（NSArray）,数组中所存放的就是当前视图中所添加的所有约束。因为Masonry框架对NSLayoutConstraint封装成了MASViewConstraint，所有此处数组中存储的是MASViewConstraint对象。</p>
-<p>接下来来看<code>mas_makeConstraints</code>的参数，<code>mas_makeConstraints</code>测参数是一个类型为<code>void(^)(MASConstraintMaker *)</code>的匿名block（也就是匿名闭包），该闭包的返回值为void, 并且需要一个<code>MASConstraintMaker</code>工厂类的一个对象。该闭包的作用就是可以让<code>mas_makeConstraints</code>方法通过该block给<code>MASConstraintMaker</code>工厂类对象中的<code>MAConstraint</code>属性进行初始化。<br>具体可以参考下面的代码及其注释:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//新建并添加约束</div><div class="line">- (NSArray *)mas_makeConstraints:(void(^)(MASConstraintMaker *))block &#123;</div><div class="line">   //关闭自动添加约束，由我们手动添加约束</div><div class="line">    self.translatesAutoresizingMaskIntoConstraints = NO;</div><div class="line">    //实例化constraintMaker对象，来操作接下来的约束</div><div class="line">    MASConstraintMaker *constraintMaker = [[MASConstraintMaker alloc] initWithView:self];</div><div class="line">    //block作为参数，这里完成隐式调用，完成回调，通过block将constraintMaker对象回调给用户让用户对constraintMaker中的MAConstraint类型的属性进行初始化。换句话说block中所做的事情就是之前用户设置约束是所添加的代码，比如make.top(@10) == ( constraintMaker.top = 10 )。</div><div class="line">    block(constraintMaker);</div><div class="line">    //添加约束，但会Install的约束数组</div><div class="line">    return [constraintMaker install];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-block参数的隐式回调"><a href="#2-block参数的隐式回调" class="headerlink" title="2. block参数的隐式回调"></a>2. block参数的隐式回调</h4><p>返回的值为一个block,block的返回值是MASConstraint类的实例对象，所以最终还是返回的MASConstraint类的实例对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (MASConstraint * (^)(id))equalTo &#123;</div><div class="line">    return ^id(id attribute) &#123;</div><div class="line">        return self.equalToWithRelation(attribute, NSLayoutRelationEqual);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="3-约束安装install方法"><a href="#3-约束安装install方法" class="headerlink" title="3.约束安装install方法"></a>3.约束安装install方法</h4><p>实际的过程是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//普通声明，无setter/getter</div><div class="line">//    programmer.nameWithoutSetterGetter = @&quot;无setter/getter&quot;;    //调用setter，编译成功，运行报错为：（-[Programmer setNameWithSetterGetter:]: unrecognized selector sent to instance 0x7f9de358fd70&apos;）</div><div class="line">    </div><div class="line">//    NSLog(@&quot;%@&quot;,programmer.nameWithoutSetterGetter);           //调用getter，编译成功，运行报错为-[Programmer setNameWithSetterGetter:]: unrecognized selector sent to instance 0x7fe22be11ea0&apos;</div><div class="line"></div><div class="line">//    NSLog(@&quot;%@&quot;,_nameWithoutSetterGetter);        //这是调用_成员变量,错误提示为：（Use of undeclared identifier &apos;_nameWithoutSetterGetter&apos;）</div></pre></td></tr></table></figure>
+<p>那接下来我们继续思考:<br>既然报错的根本原因是使用了系统没有生成的<code>setter/getter</code>方法，可不可以在手动添加<code>setter/getter</code>来避免崩溃，完成调用呢？<br>其实是可以的。由于OC是动态语言，方法真正的实现是通过<code>runtime</code>完成的，虽然系统不给我们生成<code>setter/getter</code>，但我们可以通过<code>runtime</code>手动添加<code>setter/getter</code>方法。那具体怎么实现呢？</p>
+<h3 id="代码实现如下"><a href="#代码实现如下" class="headerlink" title="代码实现如下:"></a>代码实现如下:</h3><p>按照这个思路，我们通过运行时手动添加这个方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#import &lt;objc/runtime.h&gt;</div><div class="line"></div><div class="line">static NSString *nameWithSetterGetterKey = @&quot;nameWithSetterGetterKey&quot;;   //定义一个key值</div><div class="line">@implementation Programmer (Category)</div><div class="line"></div><div class="line">//运行时实现setter方法</div><div class="line">- (void)setNameWithSetterGetter:(NSString *)nameWithSetterGetter &#123;</div><div class="line">        objc_setAssociatedObject(self, &amp;nameWithSetterGetterKey, nameWithSetterGetter, OBJC_ASSOCIATION_COPY);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//运行时实现getter方法</div><div class="line">- (NSString *)nameWithSetterGetter &#123;</div><div class="line">    return objc_getAssociatedObject(self, &amp;nameWithSetterGetterKey);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="实际使用效果"><a href="#实际使用效果" class="headerlink" title="实际使用效果"></a>实际使用效果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//通过runtime实现了setter/getter</div><div class="line">    programmer.nameWithSetterGetter = @&quot;有setter/getter&quot;;    //调用setter，成功</div><div class="line">    NSLog(@&quot;%@&quot;,programmer.nameWithSetterGetter);            //调用getter，成功</div><div class="line">//    NSLog(@&quot;%@&quot;,_nameWithSetterGetter); //这是调用_成员变量，错误提示为：（Use of undeclared identifier &apos;_nameWithSetterGetter&apos;）</div></pre></td></tr></table></figure>
+<p><strong>问题解决。</strong></p>
 <blockquote>
-<ol>
-<li>判断是否有约束，有就遍历约束，调用uninstall清空之前所有的约束</li>
-<li>无约束，就遍历数组的约束对象，然后调用install逐个安装</li>
-<li>调用系统的方法安装约束</li>
-</ol>
+<p><strong>但是注意，以上代码仅仅是手动实现了</strong><code>setter/getter</code><strong>方法，但调用</strong><code>_成员变量</code><strong>依然报错。</strong></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (NSArray *)install &#123;</div><div class="line">  //判断是否存在约束，存在就遍历所有约束，然后移除</div><div class="line">    if (self.removeExisting) &#123;</div><div class="line">        NSArray *installedConstraints = [MASViewConstraint installedConstraintsForView:self.view];</div><div class="line">        for (MASConstraint *constraint in installedConstraints) &#123;</div><div class="line">            [constraint uninstall];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">     //不存在约束，就复制约束，然后遍历数组中的约束，完成安装。</div><div class="line">    NSArray *constraints = self.constraints.copy;</div><div class="line">    for (MASConstraint *constraint in constraints) &#123;</div><div class="line">        constraint.updateExisting = self.updateExisting;</div><div class="line">        [constraint install];</div><div class="line">    &#125;</div><div class="line">    [self.constraints removeAllObjects];</div><div class="line">    return constraints;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="文末："><a href="#文末：" class="headerlink" title="文末："></a>文末：</h2><p>以上是masonry。通过这个也是给大家渗透链式编程的思想。<br>可能很多人对block作为返回值比较难理解，但这是整个链式编程的核心。</p>
+<h2 id="类扩展（Class-Extension）"><a href="#类扩展（Class-Extension）" class="headerlink" title="类扩展（Class Extension）"></a>类扩展（Class Extension）</h2><p>Extension是Category的一个特例。类扩展与分类相比只少了分类的名称，所以称之为“匿名分类”。<br>其实开发当中，我们几乎天天在使用。对于有些人来说像是最熟悉的陌生人。</p>
+<h3 id="类扩展格式："><a href="#类扩展格式：" class="headerlink" title="类扩展格式："></a>类扩展格式：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@interface XXX ()</div><div class="line">//私有属性</div><div class="line">//私有方法（如果不实现，编译时会报警,Method definition for &apos;XXX&apos; not found）</div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h3><blockquote>
+<p>为一个类添加额外的原来没有变量，方法和属性<br>一般的类扩展写到<code>.m</code>文件中<br>一般的私有属性写到<code>.m</code>文件中的类扩展中</p>
+</blockquote>
+<hr>
+<h2 id="类别与类扩展的区别："><a href="#类别与类扩展的区别：" class="headerlink" title="类别与类扩展的区别："></a>类别与类扩展的区别：</h2><blockquote>
+<p>①类别中原则上只能增加方法（能添加属性的的原因只是通过<code>runtime</code>解决无<code>setter/getter</code>的问题而已）；<br>②类扩展不仅可以增加方法，还可以增加实例变量（或者属性），只是该实例变量默认是@private类型的（<br>用范围只能在自身类，而不是子类或其他地方）；<br>③类扩展中声明的方法没被实现，编译器会报警，但是类别中的方法没被实现编译器是不会有任何警告的。这是因为<strong>类扩展是在编译阶段被添加到类中，而类别是在运行时添加到类中</strong>。<br>④类扩展不能像类别那样拥有独立的实现部分（@implementation部分），也就是说，类扩展所声明的方法必须依托对应类的实现部分来实现。<br>⑤定义在 .m 文件中的类扩展方法为私有的，定义在 .h 文件（头文件）中的类扩展方法为公有的。类扩展是在 .m 文件中声明私有方法的非常好的方式。</p>
+</blockquote>
+<h2 id="点击下载Demo"><a href="#点击下载Demo" class="headerlink" title="点击下载Demo"></a><a href="https://github.com/walkertop/CategoryAndExtension--Demo" target="_blank" rel="external">点击下载Demo</a></h2><h2 id="最后总结："><a href="#最后总结：" class="headerlink" title="最后总结："></a>最后总结：</h2><p>关于分类，类扩展等问题，在很多概念性的东西网上讲解的很是模糊，而且在实际应用的背后的原理上也少有展开。作者写这篇文章的目的就是想让读者对分类，类扩展等常见的问题有个清晰的认识，免了看了记不住，记住又记不对，记对了又不明白原因。<br>在实际开发中，很多工具类都是分类，类扩展的实际应用，所以笔者后续会在我的个人GitHub上放出工具类，欢迎start和follow。<br>文章是本人通过实际代码和自己的开发经验整理而成，如果你喜欢我的文章，欢迎喜欢和打赏。技术的进步成长需要交流碰撞，也期待你的留言评论，不要只做一个MARK党。</p>
 
       
     </div>
@@ -466,6 +439,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/category/" rel="tag"># category</a>
+          
+        </div>
+      
 
       
       
@@ -475,8 +454,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/17/史上最全ReactiveCocoa-RAC-之信号类源码解析/" rel="next" title="史上最全ReactiveCocoa(RAC)之信号类源码解析">
-                <i class="fa fa-chevron-left"></i> 史上最全ReactiveCocoa(RAC)之信号类源码解析
+              <a href="/2015/09/29/深入runtime探究KVO/" rel="next" title="深入runtime探究KVO">
+                <i class="fa fa-chevron-left"></i> 深入runtime探究KVO
               </a>
             
           </div>
@@ -485,8 +464,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/21/RAC之常用方法汇总/" rel="prev" title="RAC之常用方法汇总">
-                RAC之常用方法汇总 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/10/19/成员变量和属性的前世今生/" rel="prev" title="成员变量和属性的前世今生">
+                成员变量和属性的前世今生 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -625,7 +604,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、NSLayoutConstraint约束"><span class="nav-number">1.</span> <span class="nav-text">一、NSLayoutConstraint约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二：masonry介绍"><span class="nav-number">2.</span> <span class="nav-text">二：masonry介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-masonry添加约束的代码实现"><span class="nav-number">2.1.</span> <span class="nav-text">1.masonry添加约束的代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-masonry方法执行步骤解析："><span class="nav-number">2.2.</span> <span class="nav-text">2.masonry方法执行步骤解析：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-疑问"><span class="nav-number">2.3.</span> <span class="nav-text">3.疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题一：make的点语法代表什么意思？"><span class="nav-number">2.3.1.</span> <span class="nav-text">问题一：make的点语法代表什么意思？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题二：为什么可以连续用点语法？"><span class="nav-number">2.3.2.</span> <span class="nav-text">问题二：为什么可以连续用点语法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题三：整个方法的具体调用步骤是什么样的？"><span class="nav-number">2.3.3.</span> <span class="nav-text">问题三：整个方法的具体调用步骤是什么样的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-mas-makeConstraints方法解析"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">1.mas_makeConstraints方法解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-block参数的隐式回调"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">2. block参数的隐式回调</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-约束安装install方法"><span class="nav-number">2.3.3.3.</span> <span class="nav-text">3.约束安装install方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文末："><span class="nav-number">2.4.</span> <span class="nav-text">文末：</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景："><span class="nav-number">1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类（Category）："><span class="nav-number">2.</span> <span class="nav-text">分类（Category）：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Category源码："><span class="nav-number">2.2.</span> <span class="nav-text">Category源码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类格式："><span class="nav-number">2.3.</span> <span class="nav-text">分类格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际代码如下："><span class="nav-number">2.4.</span> <span class="nav-text">实际代码如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现如下"><span class="nav-number">2.5.</span> <span class="nav-text">代码实现如下:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际使用效果"><span class="nav-number">2.6.</span> <span class="nav-text">实际使用效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类扩展（Class-Extension）"><span class="nav-number">3.</span> <span class="nav-text">类扩展（Class Extension）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类扩展格式："><span class="nav-number">3.1.</span> <span class="nav-text">类扩展格式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用："><span class="nav-number">3.2.</span> <span class="nav-text">作用：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类别与类扩展的区别："><span class="nav-number">4.</span> <span class="nav-text">类别与类扩展的区别：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点击下载Demo"><span class="nav-number">5.</span> <span class="nav-text">点击下载Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后总结："><span class="nav-number">6.</span> <span class="nav-text">最后总结：</span></a></li></ol></div>
             
 
           </div>
