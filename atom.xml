@@ -53,6 +53,24 @@
   </entry>
   
   <entry>
+    <title>RAC之常用方法汇总</title>
+    <link href="http://yoursite.com/2016/03/21/RAC%E4%B9%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"/>
+    <id>http://yoursite.com/2016/03/21/RAC之常用方法汇总/</id>
+    <published>2016-03-21T04:06:10.000Z</published>
+    <updated>2017-06-19T04:10:32.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;一、iOS内部对不同事件的处理&quot;&gt;&lt;a href=&quot;#一、iOS内部对不同事件的处理&quot; class=&quot;headerlink&quot; title=&quot;一、iOS内部对不同事件的处理&quot;&gt;&lt;/a&gt;一、iOS内部对不同事件的处理&lt;/h1&gt;&lt;p&gt;iOS中对不同事件作出响应时，会用不
+    
+    </summary>
+    
+    
+      <category term="RAC" scheme="http://yoursite.com/tags/RAC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>RAC之masonry源码深度解析</title>
     <link href="http://yoursite.com/2016/03/19/RAC%E4%B9%8Bmasonry%E6%BA%90%E7%A0%81%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/"/>
     <id>http://yoursite.com/2016/03/19/RAC之masonry源码深度解析/</id>
@@ -74,7 +92,7 @@
     <link href="http://yoursite.com/2016/03/17/%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8ReactiveCocoa-RAC-%E4%B9%8B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
     <id>http://yoursite.com/2016/03/17/史上最全ReactiveCocoa-RAC-之信号类源码解析/</id>
     <published>2016-03-17T04:01:13.000Z</published>
-    <updated>2017-06-19T04:05:15.000Z</updated>
+    <updated>2017-06-19T04:10:59.000Z</updated>
     
     <summary type="html">
     
@@ -87,7 +105,43 @@
     </summary>
     
     
-      <category term="RAC 源码解析" scheme="http://yoursite.com/tags/RAC-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+      <category term="RAC" scheme="http://yoursite.com/tags/RAC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>趣谈iOS运行时之方法调用原理</title>
+    <link href="http://yoursite.com/2016/01/19/%E8%B6%A3%E8%B0%88iOS%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B9%8B%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2016/01/19/趣谈iOS运行时之方法调用原理/</id>
+    <published>2016-01-19T04:13:53.000Z</published>
+    <updated>2017-06-19T04:16:06.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;导语&quot;&gt;&lt;a href=&quot;#导语&quot; class=&quot;headerlink&quot; title=&quot;导语&quot;&gt;&lt;/a&gt;导语&lt;/h2&gt;&lt;p&gt;一个成熟的计算机语言必然有丰富的体系，复杂的容错机制，处理逻辑以及判断逻辑。但这些复杂的逻辑都是围绕一个主线丰富和展开的，所以在学习计算机语
+    
+    </summary>
+    
+    
+      <category term="runtime" scheme="http://yoursite.com/tags/runtime/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>成员变量和属性的前世今生</title>
+    <link href="http://yoursite.com/2015/10/19/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%9E%E6%80%A7%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <id>http://yoursite.com/2015/10/19/成员变量和属性的前世今生/</id>
+    <published>2015-10-19T11:13:25.000Z</published>
+    <updated>2017-06-19T04:17:39.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;目录：&quot;&gt;&lt;a href=&quot;#目录：&quot; class=&quot;headerlink&quot; title=&quot;目录：&quot;&gt;&lt;/a&gt;目录：&lt;/h1&gt;&lt;p&gt;1.简述编译器的变化对@property的影响；&lt;br&gt;2.实际使用中@property和&lt;code&gt;成员变量+ @property
+    
+    </summary>
+    
+    
+      <category term="成员变量 属性" scheme="http://yoursite.com/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/"/>
     
   </entry>
   

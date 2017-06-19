@@ -83,7 +83,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="walkertop, iOS, better, GTD, 效率" />
+  <meta name="keywords" content="成员变量 属性," />
 
 
 
@@ -101,15 +101,17 @@
 
 
 
-<meta name="description" content="Better is top!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Walker小站">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta name="description" content="目录：1.简述编译器的变化对@property的影响；2.实际使用中@property和成员变量+ @property + @synthesize 成员变量的区别3.self.XXX,_XXX,self-&amp;gt;XXX的区别；4.Demo地址 历史由来：接触iOS的人都知道，@property声明的属性默认会生成一个_类型的成员变量，同时也会生成setter/getter方法。但这只是在iOS5之">
+<meta name="keywords" content="成员变量 属性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="成员变量和属性的前世今生">
+<meta property="og:url" content="http://yoursite.com/2015/10/19/成员变量和属性的前世今生/index.html">
 <meta property="og:site_name" content="Walker小站">
-<meta property="og:description" content="Better is top!">
+<meta property="og:description" content="目录：1.简述编译器的变化对@property的影响；2.实际使用中@property和成员变量+ @property + @synthesize 成员变量的区别3.self.XXX,_XXX,self-&amp;gt;XXX的区别；4.Demo地址 历史由来：接触iOS的人都知道，@property声明的属性默认会生成一个_类型的成员变量，同时也会生成setter/getter方法。但这只是在iOS5之">
+<meta property="og:updated_time" content="2017-06-19T04:17:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Walker小站">
-<meta name="twitter:description" content="Better is top!">
+<meta name="twitter:title" content="成员变量和属性的前世今生">
+<meta name="twitter:description" content="目录：1.简述编译器的变化对@property的影响；2.实际使用中@property和成员变量+ @property + @synthesize 成员变量的区别3.self.XXX,_XXX,self-&amp;gt;XXX的区别；4.Demo地址 历史由来：接触iOS的人都知道，@property声明的属性默认会生成一个_类型的成员变量，同时也会生成setter/getter方法。但这只是在iOS5之">
 
 
 
@@ -137,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/"/>
+  <link rel="canonical" href="http://yoursite.com/2015/10/19/成员变量和属性的前世今生/"/>
 
 
 
 
 
-  <title>归档 | Walker小站</title>
+  <title>成员变量和属性的前世今生 | Walker小站</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -178,7 +180,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -296,298 +298,170 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 7 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/13/《把时间当作朋友》读书笔记/" itemprop="url">
-              
-                <span itemprop="name">《把时间当作朋友》读书笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-13T16:10:53+08:00"
-              content="2017-03-13" >
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/06/08/runloop/" itemprop="url">
-              
-                <span itemprop="name">对，我就是RunLoop</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-06-08T18:37:28+08:00"
-              content="2016-06-08" >
-          06-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/03/21/RAC之常用方法汇总/" itemprop="url">
-              
-                <span itemprop="name">RAC之常用方法汇总</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-03-21T12:06:10+08:00"
-              content="2016-03-21" >
-          03-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/03/19/RAC之masonry源码深度解析/" itemprop="url">
-              
-                <span itemprop="name">RAC之masonry源码深度解析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-03-19T11:52:58+08:00"
-              content="2016-03-19" >
-          03-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/03/17/史上最全ReactiveCocoa-RAC-之信号类源码解析/" itemprop="url">
-              
-                <span itemprop="name">史上最全ReactiveCocoa(RAC)之信号类源码解析</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-03-17T12:01:13+08:00"
-              content="2016-03-17" >
-          03-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2016/01/19/趣谈iOS运行时之方法调用原理/" itemprop="url">
-              
-                <span itemprop="name">趣谈iOS运行时之方法调用原理</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-01-19T12:13:53+08:00"
-              content="2016-01-19" >
-          01-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/10/19/成员变量和属性的前世今生/" itemprop="url">
-              
-                <span itemprop="name">成员变量和属性的前世今生</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-10-19T19:13:25+08:00"
-              content="2015-10-19" >
-          10-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/19/成员变量和属性的前世今生/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Walker Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Walker小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">成员变量和属性的前世今生</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-19T19:13:25+08:00">
+                2015-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h1><p>1.简述编译器的变化对@property的影响；<br>2.实际使用中@property和<code>成员变量+ @property + @synthesize 成员变量</code>的区别<br>3.<code>self.XXX</code>,<code>_XXX</code>,<code>self-&gt;XXX</code>的区别；<br>4.<a href="https://github.com/walkertop/--Demo.git" target="_blank" rel="external">Demo地址</a></p>
+<h3 id="历史由来："><a href="#历史由来：" class="headerlink" title="历史由来："></a>历史由来：</h3><p>接触iOS的人都知道，<code>@property</code>声明的属性默认会生成一个_类型的成员变量，同时也会生成<code>setter/getter</code>方法。<br>但这只是在iOS5之后，苹果推出的一个新机制。看老代码时，经常看到一个大括号里面定义了成员变量，同时用了@property声明，而且还在@implementation中使用<code>@synthesize</code>方法。<br>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@interface ViewController ()</div><div class="line">&#123;</div><div class="line">   // 1.声明成员变量</div><div class="line">    NSString *myString;  </div><div class="line"> &#125;</div><div class="line"> //2.在用@property</div><div class="line">@property(nonatomic, copy) NSString *myString;  </div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line">//3.最后在@implementation中用synthesize生成set方法</div><div class="line">@synthesize myString;   </div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>其实，发生这种状况根本原因是苹果将默认编译器从GCC转换为LLVM(<code>low level virtual machine</code>)，才不再需要为属性声明实例变量了。</p>
+<p>在没有更改之前，属性的正常写法需要<code>成员变量+ @property + @synthesize 成员变量</code>三个步骤。<br>如果我们只写<code>成员变量+ @property</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@interface GBViewController :UIViewController</div><div class="line">&#123;</div><div class="line">    NSString *myString;</div><div class="line">&#125;</div><div class="line">@property (nonatomic, strong) NSString *myString;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>编译时会报警告:</strong><br><figure class="highlight plain"><figcaption><span>property 'myString' will use synthesized instance variable '_myString', not existing instance variable 'myString''```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">但更换为LLVM之后，编译器在编译过程中发现没有新的实例变量后，就会生成一个下划线开头的实例变量。因此现在我们不必在声明一个实例变量。（**注意：是不必要，不是不可以**）</div><div class="line">当然我们也熟知，`@property`声明的属性不仅仅默认给我们生成一个_类型的成员变量，同时也会生成`setter/getter`方法。</div><div class="line"></div><div class="line">在`.m`文件中，编译器也会自动的生成一个实例变量`_XXX`。那么在.m文件中可以直接的使用`_XXX`实例变量，也可以通过属性`self. XXX`。</div><div class="line"></div><div class="line">只是我们需要注意这里的`self.XXX`实际是调用`XXX`属性的`setter/getter`方法。这与C++中点的使用是有区别的，C++中的点可以直接访问成员变量(也就是实例变量)。</div><div class="line"></div><div class="line">**例如在OC中有如下代码**</div></pre></td></tr></table></figure></p>
+<p>@interface MyViewController :UIViewController<br>{<br>    NSString *name;<br>}<br>@end<br><code>``
+在这段代码里面只是声明了一个成员变量，并没有</code>setter/getter<code>方法。所以访问成员变量时，可以直接访问</code>name<code>，也可以像C++一样用</code>self-&gt;name<code>来访问，但绝对不能用</code>self.name`来访问。</p>
+<blockquote>
+<ul>
+<li><strong>扩展</strong>:很多人觉得OC中的点语法比较奇怪，实际是OC设计人员有意为之。</li>
+<li><code>点表达式(.)</code>看起来与C语言中的结构体访问以及java语言汇总的对象访问有点类似，如果点表达式出现在等号 <code>＝</code> 左边，调用该属性名称的<code>setter</code>方法。如果点表达式出现在<code>＝</code>右边，调用该属性名称的<code>getter</code>方法。</li>
+<li>OC中<code>点表达式(.)</code>其实就是调用对象的<code>setter</code>和<code>getter</code>方法的一种快捷方式，<code>self.myString = @&quot;张三&quot;;</code>实际就是<code>[self setmyString:@&quot;张三&quot;];</code></li>
+</ul>
+</blockquote>
+<p>首先我们要明白，<code>@synthesize</code> 生成了<code>setter/getter</code>方法。<br>虽然现在直接使用<code>@property</code>时，编译器会自动为你生成以下划线开头的实例变量<code>_myString</code>，不需要自己手动再去写实例变量。而且也不在.m文件中通过<code>@synthesize myString；</code>生成<code>setter/getter</code>方法。但在看老代码的时候，我们依旧可以看到有人使用<code>成员变量+ @synthesize 成员变量</code>的形式。</p>
+<blockquote>
+<p><strong>那么问题来了：</strong><br>我们能否认为新编译器LLVM下的<code>@property</code> == 老编译器GCC的 <code>成员变量+ @property + @synthesize 成员变量</code>呢？</p>
+<p>答案是否定的，<br>因为<code>成员变量+ @property + @synthesize 成员变量</code>的形式，编译器不会帮我们生成<code>_成员变量</code>，因此不会操作<code>_成员变量</code>了；<br>同时<code>@synthesize</code> 还有一个作用，可以指定与属性对应的实例变量，<br>例如<code>@synthesize myString = xxx；</code><br>那么<code>self.myString</code>其实是操作的实例变量xxx，而非_String了。</p>
+</blockquote>
+<p>在<a href="https://github.com/walkertop/--Demo.git" target="_blank" rel="external">Demo</a>中会有非常详细的说明，欢迎下载和start。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>技术学习绝不能孤胆英雄独闯天涯，而应在一群人的交流碰撞，享受智慧火花的狂欢。<br>希望我的文章能成为你的盛宴，也渴望你的建议能成为我的大餐。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/成员变量-属性/" rel="tag"># 成员变量 属性</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/19/趣谈iOS运行时之方法调用原理/" rel="prev" title="趣谈iOS运行时之方法调用原理">
+                趣谈iOS运行时之方法调用原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -595,6 +469,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -614,8 +492,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.png"
@@ -686,6 +573,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录："><span class="nav-number">1.</span> <span class="nav-text">目录：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#历史由来："><span class="nav-number">1.0.1.</span> <span class="nav-text">历史由来：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">1.1.</span> <span class="nav-text">写在最后</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -810,7 +713,9 @@
   
 
   
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   
