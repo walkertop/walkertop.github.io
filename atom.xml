@@ -34,6 +34,28 @@
   </entry>
   
   <entry>
+    <title>KVC和runtime字典转模型对比分析</title>
+    <link href="http://yoursite.com/2016/06/19/KVC%E5%92%8Cruntime%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90/"/>
+    <id>http://yoursite.com/2016/06/19/KVC和runtime字典转模型对比分析/</id>
+    <published>2016-06-18T16:25:33.000Z</published>
+    <updated>2017-06-19T04:27:03.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本文分为两部分：&lt;/p&gt;
+&lt;p&gt;一：教你怎样一部获取成员属性（通过NSObject+autoLogProperty分类）&lt;br&gt;二：对比KVC和runtime两种字典转模型的方法并抽取一个分类&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;一
+    
+    </summary>
+    
+    
+      <category term="KVC Runtime" scheme="http://yoursite.com/tags/KVC-Runtime/"/>
+    
+  </entry>
+  
+  <entry>
     <title>对，我就是RunLoop</title>
     <link href="http://yoursite.com/2016/06/08/runloop/"/>
     <id>http://yoursite.com/2016/06/08/runloop/</id>
@@ -49,6 +71,24 @@
     
     
       <category term="iOS RunLoop" scheme="http://yoursite.com/tags/iOS-RunLoop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>看不会这篇就没脸说懂setter/getter</title>
+    <link href="http://yoursite.com/2016/05/19/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/"/>
+    <id>http://yoursite.com/2016/05/19/看不会这篇就没脸说懂setter-getter/</id>
+    <published>2016-05-19T07:37:38.000Z</published>
+    <updated>2017-06-19T04:30:21.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;&lt;code&gt;setter/getter&lt;/code&gt;是一个类最基本的东西，任何一门面向对象的语言，都有这个概念，C++、java等等。因为&lt;
+    
+    </summary>
+    
+    
+      <category term="setter/getter" scheme="http://yoursite.com/tags/setter-getter/"/>
     
   </entry>
   
