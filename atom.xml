@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-19T04:37:40.000Z</updated>
+  <updated>2017-06-13T08:46:31.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,23 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2017/06/19/%E8%A7%A3%E9%87%8AautomaticallyAdjustsScrollViewInsets%EF%BC%8CextendedLayoutIncludesOpaqueBars%EF%BC%8CedgesForExtendedLayout%E7%9A%84%E4%B8%8D%E5%90%8C/"/>
-    <id>http://yoursite.com/2017/06/19/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/</id>
-    <published>2017-06-19T04:36:23.000Z</published>
-    <updated>2017-06-19T04:37:40.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;hr&gt;
-&lt;p&gt;title: &amp;gt;-&lt;br&gt;  解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同&lt;br&gt;date: 2017-01
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>《把时间当作朋友》读书笔记</title>
@@ -47,6 +30,25 @@
     
     
       <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</title>
+    <link href="http://yoursite.com/2017/01/19/%E8%A7%A3%E9%87%8AautomaticallyAdjustsScrollViewInsets%EF%BC%8CextendedLayoutIncludesOpaqueBars%EF%BC%8CedgesForExtendedLayout%E7%9A%84%E4%B8%8D%E5%90%8C/"/>
+    <id>http://yoursite.com/2017/01/19/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/</id>
+    <published>2017-01-19T04:36:23.000Z</published>
+    <updated>2017-06-19T04:40:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从iOS7开始，控制器就默认添加了全屏属性，因此，你就有更多的方式去操作view的布局，具体用到的属性包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;edgesForExtendedLayout&lt;/li&gt;
+&lt;li&gt;automaticallyAdjustsScrollViewInsets&lt;
+    
+    </summary>
+    
     
   </entry>
   
