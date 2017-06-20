@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Walker小站</title>
+  <title>Walker</title>
   <subtitle>Better is top!</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://betteris.top/"/>
   <updated>2017-06-13T08:46:31.000Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://betteris.top/</id>
   
   <author>
     <name>Walker Guo</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>《把时间当作朋友》读书笔记</title>
-    <link href="http://yoursite.com/2017/03/13/%E3%80%8A%E6%8A%8A%E6%97%B6%E9%97%B4%E5%BD%93%E4%BD%9C%E6%9C%8B%E5%8F%8B%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    <id>http://yoursite.com/2017/03/13/《把时间当作朋友》读书笔记/</id>
+    <link href="http://betteris.top/%E3%80%8A%E6%8A%8A%E6%97%B6%E9%97%B4%E5%BD%93%E4%BD%9C%E6%9C%8B%E5%8F%8B%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <id>http://betteris.top/《把时间当作朋友》读书笔记/</id>
     <published>2017-03-13T08:10:53.000Z</published>
     <updated>2017-06-13T08:46:31.000Z</updated>
     
@@ -29,14 +29,14 @@
     </summary>
     
     
-      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="http://betteris.top/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</title>
-    <link href="http://yoursite.com/2017/01/19/%E8%A7%A3%E9%87%8AautomaticallyAdjustsScrollViewInsets%EF%BC%8CextendedLayoutIncludesOpaqueBars%EF%BC%8CedgesForExtendedLayout%E7%9A%84%E4%B8%8D%E5%90%8C/"/>
-    <id>http://yoursite.com/2017/01/19/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/</id>
+    <link href="http://betteris.top/%E8%A7%A3%E9%87%8AautomaticallyAdjustsScrollViewInsets%EF%BC%8CextendedLayoutIncludesOpaqueBars%EF%BC%8CedgesForExtendedLayout%E7%9A%84%E4%B8%8D%E5%90%8C/"/>
+    <id>http://betteris.top/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/</id>
     <published>2017-01-19T04:36:23.000Z</published>
     <updated>2017-06-19T04:40:29.000Z</updated>
     
@@ -54,8 +54,8 @@
   
   <entry>
     <title>一篇文章全吃透—史上最全YYModel的使用详解</title>
-    <link href="http://yoursite.com/2016/07/19/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%85%A8%E5%90%83%E9%80%8F%E2%80%94%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8YYModel%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2016/07/19/一篇文章全吃透—史上最全YYModel的使用详解/</id>
+    <link href="http://betteris.top/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%85%A8%E5%90%83%E9%80%8F%E2%80%94%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8YYModel%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/"/>
+    <id>http://betteris.top/一篇文章全吃透—史上最全YYModel的使用详解/</id>
     <published>2016-07-19T04:32:49.000Z</published>
     <updated>2017-06-19T04:35:07.000Z</updated>
     
@@ -66,14 +66,14 @@
     </summary>
     
     
-      <category term="YYModel" scheme="http://yoursite.com/tags/YYModel/"/>
+      <category term="YYModel" scheme="http://betteris.top/tags/YYModel/"/>
     
   </entry>
   
   <entry>
     <title>KVC和runtime字典转模型对比分析</title>
-    <link href="http://yoursite.com/2016/06/19/KVC%E5%92%8Cruntime%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90/"/>
-    <id>http://yoursite.com/2016/06/19/KVC和runtime字典转模型对比分析/</id>
+    <link href="http://betteris.top/KVC%E5%92%8Cruntime%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90/"/>
+    <id>http://betteris.top/KVC和runtime字典转模型对比分析/</id>
     <published>2016-06-18T16:25:33.000Z</published>
     <updated>2017-06-19T04:27:03.000Z</updated>
     
@@ -88,14 +88,14 @@
     </summary>
     
     
-      <category term="KVC Runtime" scheme="http://yoursite.com/tags/KVC-Runtime/"/>
+      <category term="KVC Runtime" scheme="http://betteris.top/tags/KVC-Runtime/"/>
     
   </entry>
   
   <entry>
     <title>对，我就是RunLoop</title>
-    <link href="http://yoursite.com/2016/06/08/runloop/"/>
-    <id>http://yoursite.com/2016/06/08/runloop/</id>
+    <link href="http://betteris.top/runloop/"/>
+    <id>http://betteris.top/runloop/</id>
     <published>2016-06-08T10:37:28.000Z</published>
     <updated>2017-06-09T03:07:18.000Z</updated>
     
@@ -107,14 +107,14 @@
     </summary>
     
     
-      <category term="iOS RunLoop" scheme="http://yoursite.com/tags/iOS-RunLoop/"/>
+      <category term="iOS RunLoop" scheme="http://betteris.top/tags/iOS-RunLoop/"/>
     
   </entry>
   
   <entry>
     <title>看不会这篇就没脸说懂setter/getter</title>
-    <link href="http://yoursite.com/2016/05/19/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/"/>
-    <id>http://yoursite.com/2016/05/19/看不会这篇就没脸说懂setter-getter/</id>
+    <link href="http://betteris.top/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/"/>
+    <id>http://betteris.top/看不会这篇就没脸说懂setter-getter/</id>
     <published>2016-05-19T07:37:38.000Z</published>
     <updated>2017-06-19T04:30:21.000Z</updated>
     
@@ -125,14 +125,14 @@
     </summary>
     
     
-      <category term="setter/getter" scheme="http://yoursite.com/tags/setter-getter/"/>
+      <category term="setter/getter" scheme="http://betteris.top/tags/setter-getter/"/>
     
   </entry>
   
   <entry>
     <title>三分钟教会你runtime获取属性和成员变量</title>
-    <link href="http://yoursite.com/2016/05/09/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/"/>
-    <id>http://yoursite.com/2016/05/09/三分钟教会你runtime获取属性和成员变量/</id>
+    <link href="http://betteris.top/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/"/>
+    <id>http://betteris.top/三分钟教会你runtime获取属性和成员变量/</id>
     <published>2016-05-09T02:10:59.000Z</published>
     <updated>2017-06-19T04:32:21.000Z</updated>
     
@@ -147,14 +147,14 @@
     </summary>
     
     
-      <category term="runtime" scheme="http://yoursite.com/tags/runtime/"/>
+      <category term="runtime" scheme="http://betteris.top/tags/runtime/"/>
     
   </entry>
   
   <entry>
     <title>RAC+MVVM封装的网络请求</title>
-    <link href="http://yoursite.com/2016/03/22/RAC-MVVM%E5%B0%81%E8%A3%85%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"/>
-    <id>http://yoursite.com/2016/03/22/RAC-MVVM封装的网络请求/</id>
+    <link href="http://betteris.top/RAC-MVVM%E5%B0%81%E8%A3%85%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/"/>
+    <id>http://betteris.top/RAC-MVVM封装的网络请求/</id>
     <published>2016-03-22T04:11:29.000Z</published>
     <updated>2017-06-19T04:21:23.000Z</updated>
     
@@ -165,14 +165,14 @@
     </summary>
     
     
-      <category term="RAC MVVM" scheme="http://yoursite.com/tags/RAC-MVVM/"/>
+      <category term="RAC MVVM" scheme="http://betteris.top/tags/RAC-MVVM/"/>
     
   </entry>
   
   <entry>
     <title>RAC之常用方法汇总</title>
-    <link href="http://yoursite.com/2016/03/21/RAC%E4%B9%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"/>
-    <id>http://yoursite.com/2016/03/21/RAC之常用方法汇总/</id>
+    <link href="http://betteris.top/RAC%E4%B9%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"/>
+    <id>http://betteris.top/RAC之常用方法汇总/</id>
     <published>2016-03-21T04:06:10.000Z</published>
     <updated>2017-06-19T04:10:32.000Z</updated>
     
@@ -183,14 +183,14 @@
     </summary>
     
     
-      <category term="RAC" scheme="http://yoursite.com/tags/RAC/"/>
+      <category term="RAC" scheme="http://betteris.top/tags/RAC/"/>
     
   </entry>
   
   <entry>
     <title>RAC之masonry源码深度解析</title>
-    <link href="http://yoursite.com/2016/03/19/RAC%E4%B9%8Bmasonry%E6%BA%90%E7%A0%81%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/"/>
-    <id>http://yoursite.com/2016/03/19/RAC之masonry源码深度解析/</id>
+    <link href="http://betteris.top/RAC%E4%B9%8Bmasonry%E6%BA%90%E7%A0%81%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/"/>
+    <id>http://betteris.top/RAC之masonry源码深度解析/</id>
     <published>2016-03-19T03:52:58.000Z</published>
     <updated>2017-06-19T03:59:42.000Z</updated>
     
@@ -206,8 +206,8 @@
   
   <entry>
     <title>史上最全ReactiveCocoa(RAC)之信号类源码解析</title>
-    <link href="http://yoursite.com/2016/03/17/%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8ReactiveCocoa-RAC-%E4%B9%8B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    <id>http://yoursite.com/2016/03/17/史上最全ReactiveCocoa-RAC-之信号类源码解析/</id>
+    <link href="http://betteris.top/%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8ReactiveCocoa-RAC-%E4%B9%8B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    <id>http://betteris.top/史上最全ReactiveCocoa-RAC-之信号类源码解析/</id>
     <published>2016-03-17T04:01:13.000Z</published>
     <updated>2017-06-19T04:10:59.000Z</updated>
     
@@ -222,14 +222,14 @@
     </summary>
     
     
-      <category term="RAC" scheme="http://yoursite.com/tags/RAC/"/>
+      <category term="RAC" scheme="http://betteris.top/tags/RAC/"/>
     
   </entry>
   
   <entry>
     <title>趣谈iOS运行时之方法调用原理</title>
-    <link href="http://yoursite.com/2016/01/19/%E8%B6%A3%E8%B0%88iOS%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B9%8B%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E5%8E%9F%E7%90%86/"/>
-    <id>http://yoursite.com/2016/01/19/趣谈iOS运行时之方法调用原理/</id>
+    <link href="http://betteris.top/%E8%B6%A3%E8%B0%88iOS%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B9%8B%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E5%8E%9F%E7%90%86/"/>
+    <id>http://betteris.top/趣谈iOS运行时之方法调用原理/</id>
     <published>2016-01-19T04:13:53.000Z</published>
     <updated>2017-06-19T04:16:06.000Z</updated>
     
@@ -240,14 +240,14 @@
     </summary>
     
     
-      <category term="runtime" scheme="http://yoursite.com/tags/runtime/"/>
+      <category term="runtime" scheme="http://betteris.top/tags/runtime/"/>
     
   </entry>
   
   <entry>
     <title>成员变量和属性的前世今生</title>
-    <link href="http://yoursite.com/2015/10/19/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%9E%E6%80%A7%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
-    <id>http://yoursite.com/2015/10/19/成员变量和属性的前世今生/</id>
+    <link href="http://betteris.top/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%9E%E6%80%A7%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <id>http://betteris.top/成员变量和属性的前世今生/</id>
     <published>2015-10-19T11:13:25.000Z</published>
     <updated>2017-06-19T04:17:39.000Z</updated>
     
@@ -258,14 +258,14 @@
     </summary>
     
     
-      <category term="成员变量 属性" scheme="http://yoursite.com/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/"/>
+      <category term="成员变量 属性" scheme="http://betteris.top/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/"/>
     
   </entry>
   
   <entry>
     <title>category和extension史上最全攻略</title>
-    <link href="http://yoursite.com/2015/09/29/category%E5%92%8Cextension%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8%E6%94%BB%E7%95%A5/"/>
-    <id>http://yoursite.com/2015/09/29/category和extension史上最全攻略/</id>
+    <link href="http://betteris.top/category%E5%92%8Cextension%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8%E6%94%BB%E7%95%A5/"/>
+    <id>http://betteris.top/category和extension史上最全攻略/</id>
     <published>2015-09-29T04:23:39.000Z</published>
     <updated>2017-06-19T04:24:48.000Z</updated>
     
@@ -276,14 +276,14 @@
     </summary>
     
     
-      <category term="category" scheme="http://yoursite.com/tags/category/"/>
+      <category term="category" scheme="http://betteris.top/tags/category/"/>
     
   </entry>
   
   <entry>
     <title>深入runtime探究KVO</title>
-    <link href="http://yoursite.com/2015/09/29/%E6%B7%B1%E5%85%A5runtime%E6%8E%A2%E7%A9%B6KVO/"/>
-    <id>http://yoursite.com/2015/09/29/深入runtime探究KVO/</id>
+    <link href="http://betteris.top/%E6%B7%B1%E5%85%A5runtime%E6%8E%A2%E7%A9%B6KVO/"/>
+    <id>http://betteris.top/深入runtime探究KVO/</id>
     <published>2015-09-29T04:18:27.000Z</published>
     <updated>2017-06-19T04:22:25.000Z</updated>
     
@@ -294,7 +294,7 @@
     </summary>
     
     
-      <category term="runtime, KVO" scheme="http://yoursite.com/tags/runtime-KVO/"/>
+      <category term="runtime, KVO" scheme="http://betteris.top/tags/runtime-KVO/"/>
     
   </entry>
   
