@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://betteris.top/"/>
-  <updated>2017-08-22T13:03:58.000Z</updated>
+  <updated>2017-08-22T13:11:38.000Z</updated>
   <id>http://betteris.top/</id>
   
   <author>
@@ -20,16 +20,14 @@
     <link href="http://betteris.top/swift%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E5%B0%BF%E6%80%A7-%E8%AF%B4%E7%82%B9%E5%88%AB%E4%BA%BA%E6%B2%A1%E8%AE%B2%E6%98%8E%E7%99%BD%E7%9A%84%EF%BC%89/"/>
     <id>http://betteris.top/swift的数据类型到底是什么尿性-说点别人没讲明白的）/</id>
     <published>2017-08-22T13:03:09.000Z</published>
-    <updated>2017-08-22T13:03:58.000Z</updated>
+    <updated>2017-08-22T13:11:38.000Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;如果你对swift的些许了解只局限在&lt;/p&gt;
+      &lt;h2 id=&quot;文初：&quot;&gt;&lt;a href=&quot;#文初：&quot; class=&quot;headerlink&quot; title=&quot;文初：&quot;&gt;&lt;/a&gt;文初：&lt;/h2&gt;&lt;p&gt;如果你对swift的些许了解只局限在&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;swift中的类型使用struct取代class&lt;/li&gt;
-&lt;li&gt;多了Optional可选类型&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这些最基础的认知，而对其底层设计的原因和原理了解甚少，那这篇文章会给你新的视角，让你
+&lt;li&gt;
     
     </summary>
     
