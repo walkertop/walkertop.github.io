@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>RAC之常用方法汇总 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、iOS内部对不同事件的处理iOS中对不同事件作出响应时，会用不同的方式来处理这些业务逻辑。比如按钮的点击使用action，ScrollView滚动使用delegate，属性值改变使用KVO，通知等系统提供的方式。虽然说是对事件做出相应，但iOS内部需要用不同的方法，时常用起来非常的繁琐。其实这些事件，都可以通过RAC处理。 二、RAC的核心介绍RAC内部的核心类是RACSiganl。RACSi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAC之常用方法汇总">
+<meta property="og:url" content="http://betteris.top/RAC%E4%B9%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="一、iOS内部对不同事件的处理iOS中对不同事件作出响应时，会用不同的方式来处理这些业务逻辑。比如按钮的点击使用action，ScrollView滚动使用delegate，属性值改变使用KVO，通知等系统提供的方式。虽然说是对事件做出相应，但iOS内部需要用不同的方法，时常用起来非常的繁琐。其实这些事件，都可以通过RAC处理。 二、RAC的核心介绍RAC内部的核心类是RACSiganl。RACSi">
+<meta property="article:published_time" content="2016-03-21T04:06:10.000Z">
+<meta property="article:modified_time" content="2017-06-19T04:10:32.000Z">
+<meta property="article:author" content="Walker Guo">
+<meta property="article:tag" content="RAC">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-RAC之常用方法汇总" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/RAC%E4%B9%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" class="article-date">
+  <time datetime="2016-03-21T04:06:10.000Z" itemprop="datePublished">2016-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RAC之常用方法汇总
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、iOS内部对不同事件的处理"><a href="#一、iOS内部对不同事件的处理" class="headerlink" title="一、iOS内部对不同事件的处理"></a>一、iOS内部对不同事件的处理</h1><p>iOS中对不同事件作出响应时，会用不同的方式来处理这些业务逻辑。<br>比如按钮的点击使用action，ScrollView滚动使用delegate，属性值改变使用KVO，通知等系统提供的方式。<br>虽然说是对事件做出相应，但iOS内部需要用不同的方法，时常用起来非常的繁琐。其实这些事件，都可以通过RAC处理。</p>
+<h1 id="二、RAC的核心介绍"><a href="#二、RAC的核心介绍" class="headerlink" title="二、RAC的核心介绍"></a>二、RAC的核心介绍</h1><p>RAC内部的核心类是<code>RACSiganl</code>。<br>RACSiganl:信号类,一般表示将来有数据传递，只要有数据改变，信号内部接收到数据，就会马上发出数据。</p>
+<p><code>ReactiveCocoa</code>为事件提供了很多处理方法，处理起来非常简单，而且代码放在一起，就不需要跳到对应的方法里。非常便于管理，也很符合我们开发中<code>高聚合，低耦合</code>的思想。</p>
+<p>在介绍RAC底层时，我们已经对RAC的实现原理做了说明，本文会介绍RAC对不同事件的各种处理方式。</p>
+<h1 id="三、简单介绍不同的方法"><a href="#三、简单介绍不同的方法" class="headerlink" title="三、简单介绍不同的方法"></a>三、简单介绍不同的方法</h1><h2 id="ReactiveCocoa开发中常见用法"><a href="#ReactiveCocoa开发中常见用法" class="headerlink" title="ReactiveCocoa开发中常见用法"></a>ReactiveCocoa开发中常见用法</h2><h3 id="3-1-代替代理"><a href="#3-1-代替代理" class="headerlink" title="3.1 代替代理."></a>3.1 代替代理.</h3><p><code>rac_signalForSelector：</code>用于替代代理。</p>
+<h3 id="3-2代替KVO"><a href="#3-2代替KVO" class="headerlink" title="3.2代替KVO :"></a>3.2代替KVO :</h3><p><code>rac_valuesAndChangesForKeyPath：</code>用于监听某个对象的属性改变。</p>
+<h3 id="3-3-监听事件"><a href="#3-3-监听事件" class="headerlink" title="3.3 监听事件:"></a>3.3 监听事件:</h3><p><code>rac_signalForControlEvents：</code>用于监听某个事件。</p>
+<h3 id="3-4-代替通知"><a href="#3-4-代替通知" class="headerlink" title="3.4 代替通知:"></a>3.4 代替通知:</h3><p><code>rac_addObserverForName:</code>用于监听某个通知。</p>
+<h3 id="3-5-监听文本框文字改变"><a href="#3-5-监听文本框文字改变" class="headerlink" title="3.5 监听文本框文字改变:"></a>3.5 监听文本框文字改变:</h3><p><code>rac_textSignal:</code>只要文本框发出改变就会发出这个信号。</p>
+<h3 id="3-6-处理当界面有多次请求时，需要都获取到数据时，才能展示界面"><a href="#3-6-处理当界面有多次请求时，需要都获取到数据时，才能展示界面" class="headerlink" title="3.6 处理当界面有多次请求时，需要都获取到数据时，才能展示界面"></a>3.6 处理当界面有多次请求时，需要都获取到数据时，才能展示界面</h3><p><code>rac_liftSelector:withSignalsFromArray:Signals:</code>当传入的Signals(信号数组)，每一个signal都至少sendNext过一次，就会去触发第一个selector参数的方法。<br>使用注意：几个信号，参数一的方法就几个参数，每个参数对应信号发出的数据。</p>
+<h2 id="四、代码演示"><a href="#四、代码演示" class="headerlink" title="四、代码演示"></a>四、代码演示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F; 1.代替代理</span><br><span class="line">    &#x2F;&#x2F; 需求：自定义redView,监听红色view中按钮点击</span><br><span class="line">    &#x2F;&#x2F; 之前都是需要通过代理监听，给红色View添加一个代理属性，点击按钮的时候，通知代理做事情</span><br><span class="line">    &#x2F;&#x2F; rac_signalForSelector:把调用某个对象的方法的信息转换成信号，就要调用这个方法，就会发送信号。</span><br><span class="line">    &#x2F;&#x2F; 这里表示只要redV调用btnClick:,就会发出信号，订阅就好了。</span><br><span class="line">    [[redV rac_signalForSelector:@selector(btnClick:)] subscribeNext:^(id x) &#123;</span><br><span class="line">        NSLog(@&quot;点击红色按钮&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 2.KVO</span><br><span class="line">    &#x2F;&#x2F; 把监听redV的center属性改变转换成信号，只要值改变就会发送信号</span><br><span class="line">    &#x2F;&#x2F; observer:可以传入nil</span><br><span class="line">    [[redV rac_valuesAndChangesForKeyPath:@&quot;center&quot; options:NSKeyValueObservingOptionNew observer:nil] subscribeNext:^(id x) &#123;</span><br><span class="line">        NSLog(@&quot;%@&quot;,x);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 3.监听事件</span><br><span class="line">    &#x2F;&#x2F; 把按钮点击事件转换为信号，点击按钮，就会发送信号</span><br><span class="line">    [[self.btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) &#123;</span><br><span class="line">       NSLog(@&quot;按钮被点击了&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 4.代替通知</span><br><span class="line">    &#x2F;&#x2F; 把监听到的通知转换信号</span><br><span class="line">    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil] subscribeNext:^(id x) &#123;</span><br><span class="line">        NSLog(@&quot;键盘弹出&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 5.监听文本框的文字改变</span><br><span class="line">   [_textField.rac_textSignal subscribeNext:^(id x) &#123;</span><br><span class="line">       NSLog(@&quot;文字改变了%@&quot;,x);</span><br><span class="line">   &#125;];</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 6.处理多个请求，都返回结果的时候，统一做处理.</span><br><span class="line">    RACSignal *request1 &#x3D; [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) &#123;</span><br><span class="line">        &#x2F;&#x2F; 发送请求1</span><br><span class="line">        [subscriber sendNext:@&quot;发送请求1&quot;];</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    RACSignal *request2 &#x3D; [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) &#123;</span><br><span class="line">        &#x2F;&#x2F; 发送请求2</span><br><span class="line">        [subscriber sendNext:@&quot;发送请求2&quot;];</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 使用注意：几个信号，参数一的方法就几个参数，每个参数对应信号发出的数据。</span><br><span class="line">    [self rac_liftSelector:@selector(updateUIWithR1:r2:) withSignalsFromArray:@[request1,request2]];</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 更新UI（该方法有要求，有多少个信号就要求有多少个参数，参数的内容就是发送的数据。）</span><br><span class="line">- (void)updateUIWithR1:(id)data r2:(id)data1</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;更新UI%@,%@&quot;,data,data1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="文末："><a href="#文末：" class="headerlink" title="文末："></a>文末：</h1><p>这里只是对RAC常用方法合集的简单描述和基础使用的介绍，至于RAC信号的原理，可以参考作者的<a href="http://betteris.top/2016/03/17/%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%85%A8ReactiveCocoa-RAC-%E4%B9%8B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">《史上最全RAC之信号类源码解析》</a>。<br>至于RAC的bind(绑定)，map（映射），concat（组合）等高级用法，可参考作者的其它文章。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/RAC%E4%B9%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" data-id="ck55j78e5000bakx99vf47r83" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RAC/" rel="tag">RAC</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/RAC-MVVM%E5%B0%81%E8%A3%85%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          RAC+MVVM封装的网络请求
+        
+      </div>
+    </a>
+  
+  
+    <a href="/RAC%E4%B9%8Bmasonry%E6%BA%90%E7%A0%81%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RAC之masonry源码深度解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/" rel="tag">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/" rel="tag">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/" rel="tag">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/" rel="tag">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/" rel="tag">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/" rel="tag">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/" rel="tag">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/" rel="tag">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/" rel="tag">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/" rel="tag">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/" rel="tag">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/page/">page</a>
+          </li>
+        
+          <li>
+            <a href="/swift%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E5%B0%BF%E6%80%A7-%E8%AF%B4%E7%82%B9%E5%88%AB%E4%BA%BA%E6%B2%A1%E8%AE%B2%E6%98%8E%E7%99%BD%E7%9A%84%EF%BC%89/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821%E6%9D%82%E8%B0%88/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/%E7%B4%A7%E5%BC%A0%E5%85%AE%E5%85%AE%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%88/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/%E3%80%8A%E6%8A%8A%E6%97%B6%E9%97%B4%E5%BD%93%E4%BD%9C%E6%9C%8B%E5%8F%8B%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

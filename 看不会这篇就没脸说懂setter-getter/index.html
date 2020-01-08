@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>看不会这篇就没脸说懂setter/getter | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景setter&#x2F;getter是一个类最基本的东西，任何一门面向对象的语言，都有这个概念，C++、java等等。因为setter&#x2F;getter是对面向对象语言封装的最基本的支持。 OC中的setter&#x2F;getter特点和变化OC的setter&#x2F;getter和其他面向对象的语言没有什么不同。只不过，添加了一些自己的特性。 LLVM编译器下的setter&#x2F;getter的实质。我们都知道@propert">
+<meta property="og:type" content="article">
+<meta property="og:title" content="看不会这篇就没脸说懂setter&#x2F;getter">
+<meta property="og:url" content="http://betteris.top/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="背景setter&#x2F;getter是一个类最基本的东西，任何一门面向对象的语言，都有这个概念，C++、java等等。因为setter&#x2F;getter是对面向对象语言封装的最基本的支持。 OC中的setter&#x2F;getter特点和变化OC的setter&#x2F;getter和其他面向对象的语言没有什么不同。只不过，添加了一些自己的特性。 LLVM编译器下的setter&#x2F;getter的实质。我们都知道@propert">
+<meta property="article:published_time" content="2016-05-19T07:37:38.000Z">
+<meta property="article:modified_time" content="2017-06-19T04:30:21.000Z">
+<meta property="article:author" content="Walker Guo">
+<meta property="article:tag" content="setter&#x2F;getter">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-看不会这篇就没脸说懂setter-getter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/" class="article-date">
+  <time datetime="2016-05-19T07:37:38.000Z" itemprop="datePublished">2016-05-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      看不会这篇就没脸说懂setter/getter
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><code>setter/getter</code>是一个类最基本的东西，任何一门面向对象的语言，都有这个概念，C++、java等等。因为<code>setter/getter</code>是对面向对象语言封装的最基本的支持。</p>
+<h2 id="OC中的setter-getter特点和变化"><a href="#OC中的setter-getter特点和变化" class="headerlink" title="OC中的setter/getter特点和变化"></a>OC中的setter/getter特点和变化</h2><p>OC的<code>setter/getter</code>和其他面向对象的语言没有什么不同。只不过，添加了一些自己的特性。</p>
+<h2 id="LLVM编译器下的setter-getter的实质。"><a href="#LLVM编译器下的setter-getter的实质。" class="headerlink" title="LLVM编译器下的setter/getter的实质。"></a>LLVM编译器下的<code>setter/getter</code>的实质。</h2><p>我们都知道<code>@property</code>实质帮我们做了<code>setter</code>、<code>getter</code>和生成<code>_属性名</code>的三部操作，具体情况是怎样的呢，下面三部将给你一一揭示<code>@peroperty</code>的实质。</p>
+<h3 id="Step1-成员变量"><a href="#Step1-成员变量" class="headerlink" title="Step1:成员变量"></a><code>Step1:</code>成员变量</h3><p>首先查找是否有以<code>_属性名</code>命名的成员变量。</p>
+<p>如果有，默认对其进行set和get；</p>
+<p>如果没有，则隐式生成以<code>_属性名</code>命名的成员变量；</p>
+<p>实际LLVM编译器会隐形的帮我们创建一个<code>_属性名</code>的成员变量。</p>
+<p>&lt;不过注意，编译器会先检测有无相关成员变量，有不创建，无才创建，下文会有详细说明&gt;</p>
+<h3 id="Step2-系统默认实现setter方法"><a href="#Step2-系统默认实现setter方法" class="headerlink" title="Step2:系统默认实现setter方法"></a><code>Step2:</code>系统默认实现<code>setter</code>方法</h3><p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)setName:(NSString *)name &#123;</span><br><span class="line">    _name &#x3D; name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step3-系统默认实现getter方法"><a href="#Step3-系统默认实现getter方法" class="headerlink" title="Step3:系统默认实现getter方法"></a><code>Step3:</code>系统默认实现<code>getter</code>方法</h3><p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (NSString *)name &#123;</span><br><span class="line">    return _name;   &#x2F;&#x2F;调用getter方法返回的是下划线的成员变量。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="更改-property的-属性"><a href="#更改-property的-属性" class="headerlink" title="更改@property的_属性"></a>更改@property的<code>_属性</code></h2><p>虽然系统默认帮助我们生成了_属性名的成员变量，假如我们并不想如此，而是把系统的_属性更改为制定的成员变量。接下来怎操作呢？<br>实质上是由两种方法的，下面一一介绍:</p>
+<h3 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h3><p>重写<code>setter/getter</code>方法，将<code>_属性名</code> 更改为我们想要的名字；</p>
+<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二:"></a>方式二:</h3><p>直接使用<code>@synthesize 属性名 = 指定属性名</code>；<br>两种创建方式的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController () &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *mySynthesizeString2;   &#x2F;&#x2F;synthesize方法</span><br><span class="line">    NSString *setterString;          &#x2F;&#x2F;setter的string</span><br><span class="line">&#125;</span><br><span class="line">@property(nonatomic,copy) NSString *myString1;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,copy) NSString *myString2;  &#x2F;&#x2F;@synthesize</span><br><span class="line"></span><br><span class="line">@property(nonatomic,copy) NSString *myString3;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">@synthesize myString1;          &#x2F;&#x2F;没有_myString1</span><br><span class="line"></span><br><span class="line">@synthesize myString2 &#x3D; mySynthesizeString2;    &#x2F;&#x2F;将成员变量变为mySynthesizeString2</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *  通过重写setter方法改变成员变量的值</span><br><span class="line"> *</span><br><span class="line"> *  @param myString2 将自定义的成员变量setterString赋值给myString2，</span><br><span class="line"> *  以后调setter实际获得的是setterString，  _myString2 已不存在</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)setMyString2:(NSString *)myString2 &#123;</span><br><span class="line">    setterString &#x3D; myString1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)myString2 &#123;</span><br><span class="line">    return setterString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于-property的属性注意事项"><a href="#关于-property的属性注意事项" class="headerlink" title="关于@property的属性注意事项"></a>关于<code>@property</code>的属性注意事项</h2><blockquote>
+<p>使用属性注意事项：</p>
+<p>1、当属性名与成员变量名一样时，如果我们想保证成员变量有值，那么就需要在<code>.m</code>中加入<code>@synthesize</code> 变量名；</p>
+<p>2、当属性名与成员变量名一样时，如果我们对成员变量的值不强求，但我们又想打印所赋的值，这时在<code>.m</code>里可以使用(<code>_属性名</code>) 或者<code>self.属性名</code>；</p>
+<p>3、当定义一个属性时，会首先查找是否有以 _属性名 命名的成员变量，如果有，默认对其进行<code>setter/getter</code>，如果没有，则隐式生成以<code>_属性名</code>命名的成员变量；</p>
+<p>4、当我们使用属性时成员变量可以省略。<br>(当<code>.h</code>文件中的成员变量名不省略时 <code>.m</code>文件中的<code>@synthesize</code> 也不能省略！当成员变量名省略时<code>@synthesize</code>也可以省略）</p>
+</blockquote>
+<h2 id="扩展关于setter-getter-readonly-readwrite"><a href="#扩展关于setter-getter-readonly-readwrite" class="headerlink" title="扩展关于setter,getter,readonly,readwrite"></a>扩展关于setter,getter,readonly,readwrite</h2><h3 id="（1）设置访问方法的名字"><a href="#（1）设置访问方法的名字" class="headerlink" title="（1）设置访问方法的名字"></a>（1）设置访问方法的名字</h3><p>默认的getter和setter器的名称是和变量名关联的，一定是setVirableName和virableName，比如上面的变量age，setter是setAge，getter是age。<br>可以通过设置@property中的setter和getter属性来修改setter和getter器的方法名。<br><code>getter=getterName</code><br><code>setter=setterName</code></p>
+<p>举个例子：<code>@property (getter=show1,setter=show2:)int age;</code>//现在，它的getter和setter的方法名字就变了<br>注意：如果你设置了readonly属性的话，那么你就不应该设置setter属性，要不然会给出一个编译器的警告。</p>
+<h3 id="（2）设置只读或读写"><a href="#（2）设置只读或读写" class="headerlink" title="（2）设置只读或读写"></a>（2）设置只读或读写</h3><p>下面两个属性很好理解，<br><code>readwrite</code>：表示既有getter，也有setter<br><code>readonly</code>：表示只有getter，没有setter<br>这两个属性是互相排斥的，只能存在一个。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/" data-id="ck55j78ef000makx99lva4wbk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/setter-getter/" rel="tag">setter/getter</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/runloop/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          对，我就是RunLoop
+        
+      </div>
+    </a>
+  
+  
+    <a href="/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">三分钟教会你runtime获取属性和成员变量</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/" rel="tag">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/" rel="tag">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/" rel="tag">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/" rel="tag">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/" rel="tag">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/" rel="tag">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/" rel="tag">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/" rel="tag">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/" rel="tag">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/" rel="tag">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/" rel="tag">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/page/">page</a>
+          </li>
+        
+          <li>
+            <a href="/swift%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E5%B0%BF%E6%80%A7-%E8%AF%B4%E7%82%B9%E5%88%AB%E4%BA%BA%E6%B2%A1%E8%AE%B2%E6%98%8E%E7%99%BD%E7%9A%84%EF%BC%89/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821%E6%9D%82%E8%B0%88/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/%E7%B4%A7%E5%BC%A0%E5%85%AE%E5%85%AE%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%88/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/%E3%80%8A%E6%8A%8A%E6%97%B6%E9%97%B4%E5%BD%93%E4%BD%9C%E6%9C%8B%E5%8F%8B%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

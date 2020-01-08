@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>三分钟教会你runtime获取属性和成员变量 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="目录  成员变量和属性到底是什么？ 怎么通过runtime获取属性？ 怎么通过runtime获取成员变量？  成员变量和属性的区别？ 实际应用场景是什么？   成员变量1、成员变量的定义 Ivar: 实例变量类型，是一个指向objc_ivar结构体的指针typedef struct objc_ivar *Ivar;  2、相关函数 &#x2F;&#x2F; 获取所有成员变量class_copyIvarList&#x2F;&#x2F; 获">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三分钟教会你runtime获取属性和成员变量">
+<meta property="og:url" content="http://betteris.top/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="目录  成员变量和属性到底是什么？ 怎么通过runtime获取属性？ 怎么通过runtime获取成员变量？  成员变量和属性的区别？ 实际应用场景是什么？   成员变量1、成员变量的定义 Ivar: 实例变量类型，是一个指向objc_ivar结构体的指针typedef struct objc_ivar *Ivar;  2、相关函数 &#x2F;&#x2F; 获取所有成员变量class_copyIvarList&#x2F;&#x2F; 获">
+<meta property="article:published_time" content="2016-05-09T02:10:59.000Z">
+<meta property="article:modified_time" content="2017-06-19T04:32:21.000Z">
+<meta property="article:author" content="Walker Guo">
+<meta property="article:tag" content="runtime">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-三分钟教会你runtime获取属性和成员变量" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/" class="article-date">
+  <time datetime="2016-05-09T02:10:59.000Z" itemprop="datePublished">2016-05-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      三分钟教会你runtime获取属性和成员变量
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><blockquote>
+<ul>
+<li>成员变量和属性到底是什么？</li>
+<li>怎么通过runtime获取属性？</li>
+<li>怎么通过runtime获取成员变量？ </li>
+<li>成员变量和属性的区别？</li>
+<li>实际应用场景是什么？</li>
+</ul>
+</blockquote>
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><h3 id="1、成员变量的定义"><a href="#1、成员变量的定义" class="headerlink" title="1、成员变量的定义"></a>1、成员变量的定义</h3><blockquote>
+<p>Ivar: 实例变量类型，是一个指向<code>objc_ivar</code>结构体的指针<br><code>typedef struct objc_ivar *Ivar;</code></p>
+</blockquote>
+<h3 id="2、相关函数"><a href="#2、相关函数" class="headerlink" title="2、相关函数"></a>2、相关函数</h3><blockquote>
+<p>// 获取所有成员变量<br><code>class_copyIvarList</code><br>// 获取成员变量名<br><code>ivar_getName</code><br>// 获取成员变量类型编码<br><code>ivar_getTypeEncoding</code><br>// 获取指定名称的成员变量<br><code>class_getInstanceVariable</code><br>// 获取某个对象成员变量的值<br><code>object_getIvar</code><br>// 设置某个对象成员变量的值<br><code>object_setIvar</code></p>
+</blockquote>
+<p><strong>说明：</strong><br><code>property_getAttributes</code>函数返回<code>objc_property_attribute_t</code>结构体列表，<code>objc_property_attribute_t</code>结构体包含<code>name</code>和<code>value</code>，常用的属性如下：</p>
+<p>属性类型  <code>name</code>值：T                                     <code>value：</code>变化<br>编码类型  <code>name</code>值：C(copy) &amp;(strong) W(weak)空(assign) 等 <code>value：</code>无<br>非/原子性 <code>name</code>值：空(atomic) N(Nonatomic)                <code>value：</code>无<br>变量名称  <code>name</code>值：V                                        <code>value：</code>变化</p>
+<p>使用<code>property_getAttributes</code>获得的描述是<code>property_copyAttributeList</code>能获取到的所有的<code>name</code>和<code>value</code>的总体描述，如 T@”NSDictionary”,C,N,V_dict1</p>
+<h3 id="3、实例应用"><a href="#3、实例应用" class="headerlink" title="3、实例应用"></a>3、实例应用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--Person.h文件--&gt;</span><br><span class="line">@interface Person : NSObject</span><br><span class="line">&#123;</span><br><span class="line">    NSString *address;</span><br><span class="line">&#125;</span><br><span class="line">@property(nonatomic,strong)NSString *name;</span><br><span class="line">@property(nonatomic,assign)NSInteger age;</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;遍历获取Person类所有的成员变量IvarList</span><br><span class="line">- (void) getAllIvarList &#123;</span><br><span class="line">    unsigned int methodCount &#x3D; 0;</span><br><span class="line">    Ivar * ivars &#x3D; class_copyIvarList([Person class], &amp;methodCount);</span><br><span class="line">    for (unsigned int i &#x3D; 0; i &lt; methodCount; i ++) &#123;</span><br><span class="line">        Ivar ivar &#x3D; ivars[i];</span><br><span class="line">        const char * name &#x3D; ivar_getName(ivar);</span><br><span class="line">        const char * type &#x3D; ivar_getTypeEncoding(ivar);</span><br><span class="line">        NSLog(@&quot;Person拥有的成员变量的类型为%s，名字为 %s &quot;,type, name);</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--打印结果--&gt;</span><br><span class="line">2016-06-15 20:26:39.412 demo-Cocoa之method swizzle[17798:2565569] Person拥有的成员变量的类型为@&quot;NSString&quot;，名字为 address </span><br><span class="line">2016-06-15 20:26:39.413 demo-Cocoa之method swizzle[17798:2565569] Person拥有的成员变量的类型为@&quot;NSString&quot;，名字为 _name </span><br><span class="line">2016-06-15 20:26:39.413 demo-Cocoa之method swizzle[17798:2565569] Person拥有的成员变量的类型为q，名字为 _age</span><br></pre></td></tr></table></figure>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="1、属性的定义"><a href="#1、属性的定义" class="headerlink" title="1、属性的定义"></a>1、属性的定义</h3><blockquote>
+<p><code>objc_property_t</code>：声明的属性的类型，是一个指向<code>objc_property</code>结构体的指针<br><code>typedef struct objc_property *objc_property_t;</code></p>
+</blockquote>
+<h3 id="2、相关函数-1"><a href="#2、相关函数-1" class="headerlink" title="2、相关函数"></a>2、相关函数</h3><blockquote>
+<p>// 获取所有属性<br><code>class_copyPropertyList</code><br>说明：使用<code>class_copyPropertyList</code>并不会获取无<code>@property</code>声明的成员变量<br>// 获取属性名<br><code>property_getName</code><br>// 获取属性特性描述字符串<br><code>property_getAttributes</code><br>// 获取所有属性特性<br><code>property_copyAttributeList</code> </p>
+</blockquote>
+<h3 id="3、实例应用-1"><a href="#3、实例应用-1" class="headerlink" title="3、实例应用"></a>3、实例应用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--Person.h文件--&gt;</span><br><span class="line">@interface Person : NSObject</span><br><span class="line">&#123;</span><br><span class="line">    NSString *address;</span><br><span class="line">&#125;</span><br><span class="line">@property(nonatomic,strong)NSString *name;</span><br><span class="line">@property(nonatomic,assign)NSInteger age;</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;遍历获取所有属性Property</span><br><span class="line">- (void) getAllProperty &#123;</span><br><span class="line">    unsigned int propertyCount &#x3D; 0;</span><br><span class="line">    objc_property_t *propertyList &#x3D; class_copyPropertyList([Person class], &amp;propertyCount);</span><br><span class="line">    for (unsigned int i &#x3D; 0; i &lt; propertyCount; i++ ) &#123;</span><br><span class="line">        objc_property_t *thisProperty &#x3D; propertyList[i];</span><br><span class="line">        const char* propertyName &#x3D; property_getName(*thisProperty);</span><br><span class="line">        NSLog(@&quot;Person拥有的属性为: &#39;%s&#39;&quot;, propertyName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--打印结果--&gt;</span><br><span class="line">2016-06-15 20:25:19.653 demo-Cocoa之method swizzle[17778:2564081] Person拥有的属性为: &#39;name&#39;</span><br><span class="line">2016-06-15 20:25:19.653 demo-Cocoa之method swizzle[17778:2564081] Person拥有的属性为: &#39;age&#39;</span><br></pre></td></tr></table></figure>
+<h2 id="应用具体场景"><a href="#应用具体场景" class="headerlink" title="应用具体场景"></a>应用具体场景</h2><h3 id="1、Json到Model的转化"><a href="#1、Json到Model的转化" class="headerlink" title="1、Json到Model的转化"></a>1、Json到Model的转化</h3><p>在开发中相信最常用的就是接口数据需要转化成Model了（当然如果你是直接从Dict取值的话。。。），很多开发者也都使用著名的第三方库如<code>JsonModel</code>、<code>Mantle</code>或<code>MJExtension</code>等，如果只用而不知其所以然，那真和“搬砖”没啥区别了，下面我们使用runtime去解析json来给Model赋值。</p>
+<p>原理描述：用runtime提供的函数遍历Model自身所有属性，如果属性在json中有对应的值，则将其赋值。</p>
+<p>核心方法：在NSObject的分类中添加方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithDict:(NSDictionary *)dict &#123;</span><br><span class="line"> </span><br><span class="line">    if (self &#x3D; [self init]) &#123;</span><br><span class="line">        &#x2F;&#x2F;(1)获取类的属性及属性对应的类型</span><br><span class="line">        NSMutableArray * keys &#x3D; [NSMutableArray array];</span><br><span class="line">        NSMutableArray * attributes &#x3D; [NSMutableArray array];</span><br><span class="line">        &#x2F;*</span><br><span class="line">         * 例子</span><br><span class="line">         * name &#x3D; value3 attribute &#x3D; T@&quot;NSString&quot;,C,N,V_value3</span><br><span class="line">         * name &#x3D; value4 attribute &#x3D; T^i,N,V_value4</span><br><span class="line">         *&#x2F;</span><br><span class="line">        unsigned int outCount;</span><br><span class="line">        objc_property_t * properties &#x3D; class_copyPropertyList([self class], &amp;outCount);</span><br><span class="line">        for (int i &#x3D; 0; i &lt; outCount; i ++) &#123;</span><br><span class="line">            objc_property_t property &#x3D; properties[i];</span><br><span class="line">            &#x2F;&#x2F;通过property_getName函数获得属性的名字</span><br><span class="line">            NSString * propertyName &#x3D; [NSString stringWithCString:property_getName(property) encoding:NSUTF8StringEncoding];</span><br><span class="line">            [keys addObject:propertyName];</span><br><span class="line">            &#x2F;&#x2F;通过property_getAttributes函数可以获得属性的名字和@encode编码</span><br><span class="line">            NSString * propertyAttribute &#x3D; [NSString stringWithCString:property_getAttributes(property) encoding:NSUTF8StringEncoding];</span><br><span class="line">            [attributes addObject:propertyAttribute];</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;立即释放properties指向的内存</span><br><span class="line">        free(properties);</span><br><span class="line"> </span><br><span class="line">        &#x2F;&#x2F;(2)根据类型给属性赋值</span><br><span class="line">        for (NSString * key in keys) &#123;</span><br><span class="line">            if ([dict valueForKey:key] &#x3D;&#x3D; nil) continue;</span><br><span class="line">            [self setValue:[dict valueForKey:key] forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>读者可以进一步思考：</p>
+<p>如何识别基本数据类型的属性并处理<br>空（nil，null）值的处理<br>json中嵌套json（Dict或Array）的处理</p>
+<p>尝试解决以上问题，你也能写出属于自己的功能完备的Json转Model库。</p>
+<h3 id="2、快速归档"><a href="#2、快速归档" class="headerlink" title="2、快速归档"></a>2、快速归档</h3><p>有时候我们要对一些信息进行归档，如用户信息类UserInfo，这将需要重写<code>initWithCoder</code>和<code>encodeWithCoder</code>方法，并对每个属性进行<code>encode</code>和<code>decode</code>操作。那么问题来了：当属性只有几个的时候可以轻松写完，如果有几十个属性呢？那不得写到天荒地老.</p>
+<p>原理描述：用runtime提供的函数遍历Model自身所有属性，并对属性进行<code>encode</code>和<code>decode</code>操作。</p>
+<p>核心方法：在Model的基类中重写方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (id)initWithCoder:(NSCoder *)aDecoder &#123;</span><br><span class="line">    if (self &#x3D; [super init]) &#123;</span><br><span class="line">        unsigned int outCount;</span><br><span class="line">        Ivar * ivars &#x3D; class_copyIvarList([self class], &amp;outCount);</span><br><span class="line">        for (int i &#x3D; 0; i &lt; outCount; i ++) &#123;</span><br><span class="line">            Ivar ivar &#x3D; ivars[i];</span><br><span class="line">            NSString * key &#x3D; [NSString stringWithUTF8String:ivar_getName(ivar)];</span><br><span class="line">            [self setValue:[aDecoder decodeObjectForKey:key] forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)encodeWithCoder:(NSCoder *)aCoder &#123;</span><br><span class="line">    unsigned int outCount;</span><br><span class="line">    Ivar * ivars &#x3D; class_copyIvarList([self class], &amp;outCount);</span><br><span class="line">    for (int i &#x3D; 0; i &lt; outCount; i ++) &#123;</span><br><span class="line">        Ivar ivar &#x3D; ivars[i];</span><br><span class="line">        NSString * key &#x3D; [NSString stringWithUTF8String:ivar_getName(ivar)];</span><br><span class="line">        [aCoder encodeObject:[self valueForKey:key] forKey:key];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3、访问私有变量"><a href="#3、访问私有变量" class="headerlink" title="3、访问私有变量"></a>3、访问私有变量</h3><p>我们知道，OC中没有真正意义上的私有变量和方法，要让成员变量私有，要放在m文件中声明，不对外暴露。如果我们知道这个成员变量的名称，可以通过runtime获取成员变量，再通过<code>getIvar</code>来获取它的值。</p>
+<p>方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ivar ivar &#x3D; class_getInstanceVariable([Model class], &quot;_str1&quot;);</span><br><span class="line">NSString * str1 &#x3D; object_getIvar(model, ivar);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/%E4%B8%89%E5%88%86%E9%92%9F%E6%95%99%E4%BC%9A%E4%BD%A0runtime%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7%E5%92%8C%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F/" data-id="ck55j78ed000kakx9hc7ngvt6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/runtime/" rel="tag">runtime</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/%E7%9C%8B%E4%B8%8D%E4%BC%9A%E8%BF%99%E7%AF%87%E5%B0%B1%E6%B2%A1%E8%84%B8%E8%AF%B4%E6%87%82setter-getter/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          看不会这篇就没脸说懂setter/getter
+        
+      </div>
+    </a>
+  
+  
+    <a href="/RAC-MVVM%E5%B0%81%E8%A3%85%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RAC+MVVM封装的网络请求</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/" rel="tag">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/" rel="tag">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/" rel="tag">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/" rel="tag">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/" rel="tag">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/" rel="tag">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/" rel="tag">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/" rel="tag">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/" rel="tag">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/" rel="tag">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/" rel="tag">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-%E5%B1%9E%E6%80%A7/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/page/">page</a>
+          </li>
+        
+          <li>
+            <a href="/swift%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E5%B0%BF%E6%80%A7-%E8%AF%B4%E7%82%B9%E5%88%AB%E4%BA%BA%E6%B2%A1%E8%AE%B2%E6%98%8E%E7%99%BD%E7%9A%84%EF%BC%89/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821%E6%9D%82%E8%B0%88/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/%E7%B4%A7%E5%BC%A0%E5%85%AE%E5%85%AE%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%88/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/%E3%80%8A%E6%8A%8A%E6%97%B6%E9%97%B4%E5%BD%93%E4%BD%9C%E6%9C%8B%E5%8F%8B%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
