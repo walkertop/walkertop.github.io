@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>史上最全ReactiveCocoa(RAC)之信号类源码解析 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="信号signal是RAC的绝对核心，所有的操作都是围绕着信号来处理的。比如：创建信号，订阅信号，发送信号是消息发送的核心步骤。常见的三个信号类为：   RACSignal RACSubject RACReplaySubject   一、RACSignal代码实现：1234567891011121314// 1.创建信号    RACSignal *siganl = [RACSignal creat">
+<meta name="keywords" content="RAC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="史上最全ReactiveCocoa(RAC)之信号类源码解析">
+<meta property="og:url" content="http://betteris.top/史上最全ReactiveCocoa-RAC-之信号类源码解析/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="信号signal是RAC的绝对核心，所有的操作都是围绕着信号来处理的。比如：创建信号，订阅信号，发送信号是消息发送的核心步骤。常见的三个信号类为：   RACSignal RACSubject RACReplaySubject   一、RACSignal代码实现：1234567891011121314// 1.创建信号    RACSignal *siganl = [RACSignal creat">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1467716-d6ea285e8b921f99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1467716-f2b4f5f91210d0ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1467716-df43b214a0a047c4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-19T04:10:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="史上最全ReactiveCocoa(RAC)之信号类源码解析">
+<meta name="twitter:description" content="信号signal是RAC的绝对核心，所有的操作都是围绕着信号来处理的。比如：创建信号，订阅信号，发送信号是消息发送的核心步骤。常见的三个信号类为：   RACSignal RACSubject RACReplaySubject   一、RACSignal代码实现：1234567891011121314// 1.创建信号    RACSignal *siganl = [RACSignal creat">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1467716-d6ea285e8b921f99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-史上最全ReactiveCocoa-RAC-之信号类源码解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/史上最全ReactiveCocoa-RAC-之信号类源码解析/" class="article-date">
+  <time datetime="2016-03-17T04:01:13.000Z" itemprop="datePublished">2016-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      史上最全ReactiveCocoa(RAC)之信号类源码解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>信号signal是RAC的绝对核心，所有的操作都是围绕着信号来处理的。<br>比如：创建信号，订阅信号，发送信号是消息发送的核心步骤。<br>常见的三个信号类为：</p>
+<blockquote>
+<ul>
+<li>RACSignal</li>
+<li>RACSubject</li>
+<li>RACReplaySubject</li>
+</ul>
+</blockquote>
+<h1 id="一、RACSignal"><a href="#一、RACSignal" class="headerlink" title="一、RACSignal"></a>一、RACSignal</h1><h2 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 1.创建信号</div><div class="line">    RACSignal *siganl = [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">       // 注：block在此仅仅是个参数，未被调用，</div><div class="line">       //当有订阅者订阅信号时会调用block。</div><div class="line">// 2.发送信号</div><div class="line">        [subscriber sendNext:@1];</div><div class="line">        // 如果不在发送数据，最好发送信号完成，内部会自动调用[RACDisposable disposable]取消订阅信号。</div><div class="line">        return nil;</div><div class="line">    &#125;];</div><div class="line">// 3.订阅信号,才会激活信号.</div><div class="line">    [siganl subscribeNext:^(id x) &#123;</div><div class="line">        // block调用时刻：每当有信号发出数据，就会调用block.</div><div class="line">        NSLog(@&quot;接收到数据:%@&quot;,x);</div><div class="line">    &#125;];</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="使用步骤："><a href="#使用步骤：" class="headerlink" title="使用步骤："></a>使用步骤：</h2><h3 id="1-创建信号"><a href="#1-创建信号" class="headerlink" title="1.创建信号"></a>1.创建信号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">+(RACSignal *)createSignal:(RACDisposable * (^)(id&lt;RACSubscriber&gt; subscriber))didSubscribe;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">内部原理：</div><div class="line">* 1.1 方法解析：方法名为createSignal：其返回值类型为RACSignal类的实例变量。参数为一个名字为didSubscribe的block。</div><div class="line">* 1.2 方法参数didSubscribe解析：(RACDisposable * (^)(id&lt;RACSubscriber&gt; subscriber))didSubscribe &#123;&#125;的返回值是RACDisposable类型的实例变量，参数为id类型且遵守且遵守RACSubscriber协议的subscriber。</div><div class="line">* 1.3 创建信号，首先把didSubscribe这个block保存到信号中，但不会触发。此时didSubscribe仅仅作为方法的参数，并没有被触发，所以信号也仅仅是一个冷信号，block内部不会执行。（具体执行见下文）</div><div class="line"></div><div class="line">源码解析：</div><div class="line">+ (RACSignal *)createSignal:(RACDisposable * (^)(id&lt;RACSubscriber&gt; subscriber))didSubscribe &#123;</div><div class="line">//创建了一个RACDynamicSignal类的信号</div><div class="line">RACDynamicSignal *signal = [[self alloc] init];</div><div class="line">//将代码块保存到信号里面（但此时仅仅是保存，没有调用）</div><div class="line">signal-&gt;_didSubscribe = [didSubscribe copy];</div><div class="line">return [signal setNameWithFormat:@&quot;+createSignal:&quot;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="2-订阅信号"><a href="#2-订阅信号" class="headerlink" title="2.订阅信号"></a>2.订阅信号</h3><blockquote>
+<p>（激活信号，冷信号编程热信号）</p>
+<ul>
+<li>(RACDisposable *)subscribeNext:(void (^ )(id x))nextBlock；</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">* 2.1当信号被订阅，也就是调用signal的subscribeNext:nextBlock，</div><div class="line">* 2.2nextBlock内部创建了订阅者subscriber，并且把nextBlock保存到subscriber中。</div><div class="line">//  RACSignal.h</div><div class="line">- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock &#123;</div><div class="line">NSCParameterAssert(nextBlock != NULL);</div><div class="line"> //内部创建了RACSubscriber（订阅者）类的实例对象o，并且将nextBlock保存到o中，在返回值出执行o,实际也是执行了nextBlock。</div><div class="line">RACSubscriber *o = [RACSubscriber subscriberWithNext:nextBlock error:NULL completed:NULL];</div><div class="line">return [self subscribe:o]; //内部执行了nextBlock，具体见下文</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (instancetype)subscriberWithNext:(void (^)(id x))next error:(void (^)(NSError *error))error completed:(void (^)(void))completed &#123;</div><div class="line"> RACSubscriber *subscriber = [[self alloc] init];</div><div class="line">//将block保存到subscriber中</div><div class="line"> subscriber-&gt;_next = [next copy];</div><div class="line"> subscriber-&gt;_error = [error copy];</div><div class="line"> subscriber-&gt;_completed = [completed copy];</div><div class="line"></div><div class="line"> return subscriber;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//执行</div><div class="line">- (RACDisposable *)subscribe:(id&lt;RACSubscriber&gt;)subscriber &#123;</div><div class="line"> NSCParameterAssert(subscriber != nil);</div><div class="line"></div><div class="line"> RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];</div><div class="line"> subscriber = [[RACPassthroughSubscriber alloc] initWithSubscriber:subscriber signal:self disposable:disposable];</div><div class="line">//判断有无self.didSubscribe,有则执行该self.didSubscribe，意味着将订阅者subscriber发送过去</div><div class="line"> if (self.didSubscribe != NULL) &#123;</div><div class="line">  RACDisposable *schedulingDisposable = [RACScheduler.subscriptionScheduler schedule:^&#123;</div><div class="line">   RACDisposable *innerDisposable = self.didSubscribe(subscriber);</div><div class="line">   [disposable addDisposable:innerDisposable];</div><div class="line">  &#125;];</div><div class="line"></div><div class="line">  [disposable addDisposable:schedulingDisposable];</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> return disposable;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="3-发送信号"><a href="#3-发送信号" class="headerlink" title="3.发送信号"></a>3.发送信号</h3><blockquote>
+<p>订阅信号时，将subscriber传递给didSubscribe的参数subscriber</p>
+<p>利用[subscriber sendNext:@1]方法发送信号。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">//  RACSubscriber.h</div><div class="line">// These callbacks should only be accessed while synchronized on self.</div><div class="line">@property (nonatomic, copy) void (^next)(id value);</div><div class="line"></div><div class="line">//名为next的block是返回值为void，参数为id类型的value，在sendNext:内部，将next复制给nextBlock，执行该方法后，subscribeNext:的block参数才会被调用。</div><div class="line"></div><div class="line">- (void)sendNext:(id)value &#123;</div><div class="line"> @synchronized (self) &#123;</div><div class="line">  void (^nextBlock)(id) = [self.next copy];</div><div class="line">  if (nextBlock == nil) return;</div><div class="line">  //执行nextBlock，发送value</div><div class="line">  nextBlock(value);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="RACSignal原理流程图："><a href="#RACSignal原理流程图：" class="headerlink" title="RACSignal原理流程图："></a>RACSignal原理流程图：</h2><p><img src="http://upload-images.jianshu.io/upload_images/1467716-d6ea285e8b921f99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RACSignal实现原理图.png"></p>
+<hr>
+<h2 id="RACSignal总结："><a href="#RACSignal总结：" class="headerlink" title="RACSignal总结："></a>RACSignal总结：</h2><p>三步骤（先创建信号，然后订阅信号，最后执行didSubscribe内部的方法）顺序是不能变的。<br>&gt;</p>
+<blockquote>
+<p>RACSignal底层实现：</p>
+<pre><code>* 1.创建信号，首先把didSubscribe保存到信号中，还不会触发。
+* 2.当信号被订阅，也就是调用signal的subscribeNext:nextBlock
+  2.1 subscribeNext内部会创建订阅者subscriber，并且把nextBlock保存到subscriber中。
+   2.2 subscribeNext内部会调用siganl的didSubscribe
+* 3.siganl的didSubscribe中调用[subscriber sendNext:@1];
+* 3.1 sendNext底层其实就是执行subscriber的nextBlock
+</code></pre></blockquote>
+<hr>
+<h1 id="二、RACSubject"><a href="#二、RACSubject" class="headerlink" title="二、RACSubject"></a>二、RACSubject</h1><blockquote>
+<p>RACSubject:信号提供者，自己可以充当信号，又能发送信号。</p>
+</blockquote>
+<p>先来简单回顾下，RACSignal类中发送和订阅信号是两步完成的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//发送信号的为遵守RACSubscribe协议的对象subscriber完成发送</div><div class="line">[subscriber sendNext:@1];</div><div class="line">//订阅信号的为RACSignal的实例对象</div><div class="line">[siganl subscribeNext:^(id x) &#123;&#125;；</div></pre></td></tr></table></figure>
+<ul>
+<li>疑问：有没有办法让一个对象既能发送也可以发送消息呢？</li>
+</ul>
+<p>其实很简单，只要让具有RACSignal对象遵守RACSubscribe协议，就既能发送，又能订阅信号了。<br>这个类就是RACSubject。虽然和RACSignal一样都具有订阅和发送信号的能力，但其内部原理不同。<br>下文是对RACSubject类进行剖析。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><blockquote>
+<p>调用顺序不变，但是可以创建多个订阅者，并发送信号；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"> // 1.创建信号</div><div class="line">    RACSubject *subject = [RACSubject subject];   </div><div class="line">// 2.订阅信号（这里可以创建多个订阅者）</div><div class="line">    [subject subscribeNext:^(id x) &#123;</div><div class="line">        // block调用时刻：当信号发出新值，就会调用.</div><div class="line">        NSLog(@&quot;第一个订阅者%@&quot;,x);</div><div class="line">    &#125;];</div><div class="line">    [subject subscribeNext:^(id x) &#123;</div><div class="line">        // block调用时刻：当信号发出新值，就会调用.</div><div class="line">        NSLog(@&quot;第二个订阅者%@&quot;,x);</div><div class="line">    &#125;];</div><div class="line">     [subject subscribeNext:^(id x) &#123;</div><div class="line">        // block调用时刻：当信号发出新值，就会调用.</div><div class="line">        NSLog(@&quot;第三个订阅者%@&quot;,x);</div><div class="line">    &#125;];</div><div class="line">// 3.发送信号</div><div class="line">    [subject sendNext:@&quot;1&quot;];</div></pre></td></tr></table></figure>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><h3 id="1-创建信号-1"><a href="#1-创建信号-1" class="headerlink" title="1.创建信号"></a>1.创建信号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//  RACSubject.m</div><div class="line">+ (instancetype)subject &#123;</div><div class="line"> return [[self alloc] init];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (id)init &#123;</div><div class="line"> self = [super init];</div><div class="line"> if (self == nil) return nil;</div><div class="line"> </div><div class="line"> _disposable = [RACCompoundDisposable compoundDisposable];</div><div class="line"> </div><div class="line"> _subscribers = [[NSMutableArray alloc] initWithCapacity:1];</div><div class="line"> </div><div class="line"> return self;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-订阅信号-1"><a href="#2-订阅信号-1" class="headerlink" title="2.订阅信号"></a>2.订阅信号</h3><blockquote>
+<p>不同类型的信号，创建订阅者的方式不同，RACSignal订阅信号时，调用了形影的block。</p>
+<p>而RACSubject订阅信号的实质就是将内部创建的订阅者保存在订阅者数组self.subscribers中，仅此而已。订阅者对象有一个名为nextBlock的block参数。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock &#123;</div><div class="line"> NSCParameterAssert(nextBlock != NULL);</div><div class="line"> </div><div class="line"> RACSubscriber *o = [RACSubscriber subscriberWithNext:nextBlock error:NULL completed:NULL];</div><div class="line"> return [self subscribe:o];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (RACDisposable *)subscribe:(id&lt;RACSubscriber&gt;)subscriber &#123;</div><div class="line"> NSCParameterAssert(subscriber != nil);</div><div class="line"></div><div class="line"> RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];</div><div class="line"> subscriber = [[RACPassthroughSubscriber alloc] initWithSubscriber:subscriber signal:self disposable:disposable];</div><div class="line"></div><div class="line"> NSMutableArray *subscribers = self.subscribers;</div><div class="line"> @synchronized (subscribers) &#123;</div><div class="line"> //将订阅者保存在订阅者数组中</div><div class="line">  [subscribers addObject:subscriber];</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> return [RACDisposable disposableWithBlock:^&#123;</div><div class="line">  @synchronized (subscribers) &#123;</div><div class="line">   // Since newer subscribers are generally shorter-lived, search</div><div class="line">   // starting from the end of the list.</div><div class="line">   NSUInteger index = [subscribers indexOfObjectWithOptions:NSEnumerationReverse passingTest:^ BOOL (id&lt;RACSubscriber&gt; obj, NSUInteger index, BOOL *stop) &#123;</div><div class="line">    return obj == subscriber;</div><div class="line">   &#125;];</div><div class="line"></div><div class="line">   if (index != NSNotFound) [subscribers removeObjectAtIndex:index];</div><div class="line">  &#125;</div><div class="line"> &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-发送信号-1"><a href="#3-发送信号-1" class="headerlink" title="3.发送信号"></a>3.发送信号</h3><blockquote>
+<p>底层实现是：</p>
+<ol>
+<li>先遍历订阅者数组中的订阅者;</li>
+<li>后执行订阅者中的nextBlock;</li>
+<li>最后让订阅者发送信号。</li>
+</ol>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//  RACSubject.m</div><div class="line"></div><div class="line">- (void)sendNext:(id)value &#123;</div><div class="line">//顺序A：遍历保存在数组中的订阅者对象</div><div class="line"> [self enumerateSubscribersUsingBlock:^(id&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">//顺序E：调用订阅者，执行sendNext:方法</div><div class="line">  [subscriber sendNext:value];</div><div class="line"> &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//顺序B:遍历subscribers数组中的订阅者对象，执行block。</div><div class="line">- (void)enumerateSubscribersUsingBlock:(void (^)(id&lt;RACSubscriber&gt; subscriber))block &#123;</div><div class="line"> NSArray *subscribers;</div><div class="line"> @synchronized (self.subscribers) &#123;</div><div class="line">  subscribers = [self.subscribers copy];</div><div class="line"> &#125;</div><div class="line">//顺序C:遍历数组，取出subscriber的block，并且执行。</div><div class="line"> for (id&lt;RACSubscriber&gt; subscriber in subscribers) &#123;</div><div class="line">//顺序D,执行block</div><div class="line">  block(subscriber);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="RACSubject原理流程图："><a href="#RACSubject原理流程图：" class="headerlink" title="RACSubject原理流程图："></a>RACSubject原理流程图：</h2><p><img src="http://upload-images.jianshu.io/upload_images/1467716-f2b4f5f91210d0ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RACSubject原理图 .png"></p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">RACSubscriber:表示订阅者的意思，用于发送信号，这是一个协议，不是一个类，只要遵守这个协议，并且实现方法才能成为订阅者。通过create创建的信号，都有一个订阅者，帮助他发送数据。</div><div class="line"></div><div class="line">RACDisposable:用于取消订阅或者清理资源，当信号发送完成或者发送错误的时候，就会自动触发它。</div></pre></td></tr></table></figure>
+<blockquote>
+<p>RACSubject:底层实现和RACSignal不一样。</p>
+</blockquote>
+<ul>
+<li><p>1.调用subscribeNext订阅信号，只是把订阅者保存起来，并且订阅者的nextBlock已经赋值了。</p>
+</li>
+<li><p>2.调用sendNext发送信号，遍历刚刚保存的所有订阅者，一个一个调用订阅者的nextBlock。</p>
+</li>
+<li>3.由于本质是将订阅者保存到数组中，所以可以有多个订阅者订阅信息。</li>
+</ul>
+<p>使用场景:不想监听某个信号时，可以通过它主动取消订阅信号。<br>RACSubject:信号提供者，自己可以充当信号，又能发送信号。</p>
+<p>使用场景:通常用来代替代理，有了它，就不必要定义代理了。</p>
+<blockquote>
+<p><strong>缺点：</strong><br>还是必须先订阅，后发送信息。订阅信号就是创建订阅者的过程，如果不先订阅，数组中就没有订阅者对象，那就通过订阅者发送消息。</p>
+</blockquote>
+<hr>
+<h1 id="三、RACReplaySubject"><a href="#三、RACReplaySubject" class="headerlink" title="三、RACReplaySubject"></a>三、RACReplaySubject</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>上文中提到了，RACSubject要求先订阅，后发送信号。<br><strong>##**</strong>代码实现：**</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 1.创建信号</div><div class="line">    RACReplaySubject *subject = [RACReplaySubject subject];</div><div class="line">// 2.订阅信号</div><div class="line">    [subject subscribeNext:^(id x) &#123;</div><div class="line">        NSLog(@&quot;%@&quot;,x);</div><div class="line">    &#125;];</div><div class="line">    // 遍历所有的值,拿到当前订阅者去发送数据</div><div class="line">// 3.发送信号</div><div class="line">    [subject sendNext:@1];</div><div class="line">    // RACReplaySubject发送数据:</div><div class="line">    // 1.保存值</div><div class="line">    // 2.遍历所有的订阅者,发送数据</div><div class="line">    </div><div class="line">    // RACReplaySubject:可以先发送信号,在订阅信号</div></pre></td></tr></table></figure>
+<h2 id="使用步骤：-1"><a href="#使用步骤：-1" class="headerlink" title="使用步骤："></a>使用步骤：</h2><h3 id="1-创建信号-2"><a href="#1-创建信号-2" class="headerlink" title="1.创建信号"></a>1.创建信号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//  RACReplaySubject.m</div><div class="line"></div><div class="line">+ (instancetype)subject &#123;</div><div class="line"> return [[self alloc] init];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (instancetype)init &#123;</div><div class="line"> return [self initWithCapacity:RACReplaySubjectUnlimitedCapacity];</div><div class="line">&#125;</div><div class="line">//此时调用的子类RACReplaySubject的初始化方法</div><div class="line">- (instancetype)initWithCapacity:(NSUInteger)capacity &#123;</div><div class="line"> self = [super init];</div><div class="line"> if (self == nil) return nil;</div><div class="line"> </div><div class="line"> _capacity = capacity;</div><div class="line">//会用_valuesReceived这个数组保存值value</div><div class="line"> _valuesReceived = (capacity == RACReplaySubjectUnlimitedCapacity ? [NSMutableArray array] : [NSMutableArray arrayWithCapacity:capacity]);</div><div class="line"> </div><div class="line"> return self;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-订阅信号-2"><a href="#2-订阅信号-2" class="headerlink" title="2.订阅信号"></a>2.订阅信号</h3><blockquote>
+<p>遍历拿到保存在数组中的所有值，然后调用subscriber发送信号。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock &#123;</div><div class="line"> NSCParameterAssert(nextBlock != NULL);</div><div class="line"> </div><div class="line"> RACSubscriber *o = [RACSubscriber subscriberWithNext:nextBlock error:NULL completed:NULL];</div><div class="line"> return [self subscribe:o];      //创建订阅者的方式不同</div><div class="line">&#125;</div><div class="line"></div><div class="line">//RACReplaySubject类对象执行[self subscribe:o]</div><div class="line">- (RACDisposable *)subscribe:(id&lt;RACSubscriber&gt;)subscriber &#123;</div><div class="line"> RACCompoundDisposable *compoundDisposable = [RACCompoundDisposable compoundDisposable];</div><div class="line"></div><div class="line"> RACDisposable *schedulingDisposable = [RACScheduler.subscriptionScheduler schedule:^&#123;</div><div class="line">  @synchronized (self) &#123;</div><div class="line">//先遍历self.valuesReceived的所有的值，后让subscriber调用sendNext:发送信号。</div><div class="line">   for (id value in self.valuesReceived) &#123;</div><div class="line">    if (compoundDisposable.disposed) return;</div><div class="line"></div><div class="line">    [subscriber sendNext:(value == RACTupleNil.tupleNil ? nil : value)];</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   if (compoundDisposable.disposed) return;</div><div class="line"></div><div class="line">   if (self.hasCompleted) &#123;</div><div class="line">    [subscriber sendCompleted];</div><div class="line">   &#125; else if (self.hasError) &#123;</div><div class="line">    [subscriber sendError:self.error];</div><div class="line">   &#125; else &#123;</div><div class="line">    RACDisposable *subscriptionDisposable = [super subscribe:subscriber];</div><div class="line">    [compoundDisposable addDisposable:subscriptionDisposable];</div><div class="line">   &#125;</div><div class="line">  &#125;</div><div class="line"> &#125;];</div><div class="line"></div><div class="line"> [compoundDisposable addDisposable:schedulingDisposable];</div><div class="line"></div><div class="line"> return compoundDisposable;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-发送信号-2"><a href="#3-发送信号-2" class="headerlink" title="3.发送信号"></a>3.发送信号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">- (void)sendNext:(id)value &#123;</div><div class="line"> @synchronized (self) &#123;</div><div class="line">//重点：发送信号的时候，会先将值value保存到数组中，</div><div class="line">  [self.valuesReceived addObject:value ?: RACTupleNil.tupleNil];</div><div class="line">//调用父类发送（先遍历订阅者，然后发送值value）</div><div class="line">  [super sendNext:value];</div><div class="line">  </div><div class="line">  if (self.capacity != RACReplaySubjectUnlimitedCapacity &amp;&amp; self.valuesReceived.count &gt; self.capacity) &#123;</div><div class="line">   [self.valuesReceived removeObjectsInRange:NSMakeRange(0, self.valuesReceived.count - self.capacity)];</div><div class="line">  &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="RACReplaySubject原理图"><a href="#RACReplaySubject原理图" class="headerlink" title="RACReplaySubject原理图"></a>RACReplaySubject原理图</h2><p><img src="http://upload-images.jianshu.io/upload_images/1467716-df43b214a0a047c4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RACReplaySubject原理图.jpg"></p>
+<h2 id="RACReplaySubject总结"><a href="#RACReplaySubject总结" class="headerlink" title="RACReplaySubject总结"></a>RACReplaySubject总结</h2><p>RACReplaySubject是RACSubject的子类。</p>
+<p>RACReplaySubject使用步骤:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 1.创建信号 [RACSubject subject]，跟RACSiganl不一样，创建信号时没有block。</div><div class="line">// 2.可以先订阅信号，也可以先发送信号。</div><div class="line">  // 2.1 订阅信号 - (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock</div><div class="line">  // 2.2 发送信号 sendNe</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/史上最全ReactiveCocoa-RAC-之信号类源码解析/" data-id="ck76887d4000klvx9mdz5huh2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RAC/">RAC</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/RAC之masonry源码深度解析/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          RAC之masonry源码深度解析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/趣谈iOS运行时之方法调用原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">趣谈iOS运行时之方法调用原理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

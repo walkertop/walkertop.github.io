@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>swift的数据类型到底是什么尿性 (说点别人没讲明白的） | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="文初：如果你对swift的些许了解只局限在  swift中的类型使用struct取代class 多了Optional可选类型  这些最基础的认知，而对其底层设计的原因和原理了解甚少，那这篇文章会给你新的视角，让你更好的理解和使用。为了让你能更宏观的理解swift在类型设计方面的初衷，本文会也会从更加宏观的角度着手。 其实swift的类型，从大的层面有两种类型：  Named Types Compo">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swift的数据类型到底是什么尿性 (说点别人没讲明白的）">
+<meta property="og:url" content="http://betteris.top/swift的数据类型到底是什么尿性-说点别人没讲明白的）/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="文初：如果你对swift的些许了解只局限在  swift中的类型使用struct取代class 多了Optional可选类型  这些最基础的认知，而对其底层设计的原因和原理了解甚少，那这篇文章会给你新的视角，让你更好的理解和使用。为了让你能更宏观的理解swift在类型设计方面的初衷，本文会也会从更加宏观的角度着手。 其实swift的类型，从大的层面有两种类型：  Named Types Compo">
+<meta property="og:image" content="http://oiu13lwmh.bkt.clouddn.com/15033951098490.jpg">
+<meta property="og:image" content="http://oiu13lwmh.bkt.clouddn.com/15033835889832.jpg">
+<meta property="og:image" content="http://oiu13lwmh.bkt.clouddn.com/Blocks%20VS%20Closures.png">
+<meta property="og:updated_time" content="2017-08-22T13:11:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="swift的数据类型到底是什么尿性 (说点别人没讲明白的）">
+<meta name="twitter:description" content="文初：如果你对swift的些许了解只局限在  swift中的类型使用struct取代class 多了Optional可选类型  这些最基础的认知，而对其底层设计的原因和原理了解甚少，那这篇文章会给你新的视角，让你更好的理解和使用。为了让你能更宏观的理解swift在类型设计方面的初衷，本文会也会从更加宏观的角度着手。 其实swift的类型，从大的层面有两种类型：  Named Types Compo">
+<meta name="twitter:image" content="http://oiu13lwmh.bkt.clouddn.com/15033951098490.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-swift的数据类型到底是什么尿性-说点别人没讲明白的）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/" class="article-date">
+  <time datetime="2017-08-22T13:03:09.000Z" itemprop="datePublished">2017-08-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      swift的数据类型到底是什么尿性 (说点别人没讲明白的）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="文初："><a href="#文初：" class="headerlink" title="文初："></a>文初：</h2><p>如果你对swift的些许了解只局限在</p>
+<ul>
+<li>swift中的类型使用struct取代class</li>
+<li>多了Optional可选类型</li>
+</ul>
+<p>这些最基础的认知，而对其底层设计的原因和原理了解甚少，那这篇文章会给你新的视角，让你更好的理解和使用。<br>为了让你能更宏观的理解swift在类型设计方面的初衷，本文会也会从更加宏观的角度着手。</p>
+<p>其实swift的类型，从大的层面有两种类型：</p>
+<ul>
+<li>Named Types</li>
+<li>Compound Types</li>
+</ul>
+<h2 id="Named-Types"><a href="#Named-Types" class="headerlink" title="Named Types"></a>Named Types</h2><p>其具体包含如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">* class </div><div class="line">* struct </div><div class="line">     &#123;</div><div class="line">         * String</div><div class="line">         * Int</div><div class="line">         * Float</div><div class="line">         * Bool</div><div class="line">         * ...</div><div class="line">     &#125;</div><div class="line"> * enum</div><div class="line"> * protocol</div></pre></td></tr></table></figure>
+<h3 id="swift类型的新特点（区别与OC）："><a href="#swift类型的新特点（区别与OC）：" class="headerlink" title="swift类型的新特点（区别与OC）："></a>swift类型的新特点（区别与OC）：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">* 没有特定的根类型（No dedicated type root ）</div><div class="line">* 类型通过遵守协议的方式，而非继承来实现扩展（ Type conforms to protocols instead of heavy inheritance ）</div><div class="line">* 低耦合（Super loose coupling ）</div><div class="line">* 概念分离（Nice separation of concerns ）</div><div class="line">* 结构清晰（Clean architecture ）</div></pre></td></tr></table></figure>
+<p>对比OC，所有的对象类型都继承自NSObject，其本质是Class类型。<br>为了保证继承的完整性，又多出了meta class等概念。Class中通过继承来实现的方法的扩展。</p>
+<p>比如：NSArray及NSMutableArray类型<br>NSMutableArray是NSArray的子类。子类NSMutableArray特有的<code>addObject:</code>等方法是通过继承NSArray,在子类中单独实现。</p>
+<p><img src="http://oiu13lwmh.bkt.clouddn.com/15033951098490.jpg" alt="OC通过继承扩展方法"></p>
+<p>这种设计本身无可挑剔，但OC过于依赖继承来实现方法的扩展，导致整个体系特别臃肿，过于耦合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">@interface AClass: NSObject</div><div class="line"></div><div class="line">- (void)aMethod;</div><div class="line">- (void)bMethod;</div><div class="line"></div><div class="line">- (void)oneMethod;</div><div class="line">- (void)twoMethod;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">//BClass想拥有aMethod和bMethod方法，不需要oneMethod和twoMethod,在OC一般都继承实现</div><div class="line">@interface BClass: AClass</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>而swift不过度依赖Class，其扩展了Struct，Enum, Protocol，并给其更高的权限（可更加灵活的添加属性，定义方法等），让其变成一等公民。</p>
+<p>swift底层是结构体，结构体不是对象类型，自然没办法通过继承来实现方法扩展。那其方法实现是通过何种方式完成的呢？<br>答案是协议，不同的协议包裹了不同的方法，通过遵守不同的协议来扩展特定的方法。</p>
+<p>对于上述需求，在swift中一般通过如下方法实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">// swift通过protocol来扩充方法，通过遵守不同的协议来获取不同方法，更偏重组合，而非继承</div><div class="line">protocol FirstProtocol &#123;</div><div class="line">    func aMethod()</div><div class="line">    func bMethod()</div><div class="line">&#125;</div><div class="line"></div><div class="line">protocol SecondProtocol &#123;</div><div class="line">    func oneMethod()</div><div class="line">    func twoMethod()</div><div class="line">&#125;</div><div class="line"></div><div class="line">class AClass: FirstProtocol,SecondProtocol &#123;</div><div class="line">    //实现两个方法</div><div class="line">&#125;</div><div class="line"></div><div class="line">class BClass: FirstProtocol &#123;</div><div class="line">    //实现两个方法</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>比如Array类型，其通过继承不同的协议来获取不同的方法。<br><img src="http://oiu13lwmh.bkt.clouddn.com/15033835889832.jpg" alt="Array遵守的协议"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">* 类比理解：</div><div class="line"></div><div class="line">继承更讲究出身，尤其OC是单继承，只能有一个父类，你想获取父类制定的方法，必须继承父类。</div><div class="line">而面向协议则更加灵活，不同的protocol封装了不同的技能包，某个类型想要获取对应方法，只需遵守该protocol就ok了。而且一个类型可以遵守多个协议，更加灵活。而且Enum,Struct都可以通过遵守协议来获取方法。</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="Compound-Types-复合类型）"><a href="#Compound-Types-复合类型）" class="headerlink" title="Compound Types (复合类型）"></a>Compound Types (复合类型）</h2><ul>
+<li>Tuples（元组）</li>
+<li>Function（函数）</li>
+</ul>
+<h3 id="Tuples-Types"><a href="#Tuples-Types" class="headerlink" title="Tuples Types"></a>Tuples Types</h3><p>Tuples（元组）是swift的新类型。其成员不同，Tuple类型就不同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var aTuple = (x: 10, y: 20)</div><div class="line">// 此时就会报错，x的类型只能是Int</div><div class="line">// aTuple = (x: &quot;name&quot;, y: 50)</div></pre></td></tr></table></figure>
+<p>当Tuples作为函数的返回值类型，就可以返回多个值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let nameDictionary: [Int: String] = [001: &quot;Jimmy&quot;]</div><div class="line">let ageDictionary: [Int: Int] = [001: 20]</div><div class="line"></div><div class="line">func getInformationFrom (ID: Int) -&gt; (name: String, age: Int) &#123;</div><div class="line">    let name = nameDictionary[ID] ?? &quot;找不到对应的名字&quot;</div><div class="line">    let age = ageDictionary[ID] ?? 0</div><div class="line">    </div><div class="line">    return (name, age)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Function-Types"><a href="#Function-Types" class="headerlink" title="Function Types"></a>Function Types</h3><p>swift将Function（函数）提升为一等类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">let nameDictionary: [Int: String] = [001: &quot;Jimmy&quot;]</div><div class="line">let ageDictionary: [Int: Int] = [001: 20]</div><div class="line"></div><div class="line">func getInformationFrom (ID: Int) -&gt; (name: String, age: Int) &#123;</div><div class="line">    let name = nameDictionary[ID] ?? &quot;找不到对应的名字&quot;</div><div class="line">    let age = ageDictionary[ID] ?? 0</div><div class="line">    </div><div class="line">    return (name, age)</div><div class="line">&#125;</div><div class="line">// 用aPerson接受这个函数，类型为一个元组类型,值为(name: &quot;Jimmy&quot;, age: 20)</div><div class="line">let aPerson = getInformationFrom(ID: 001)</div></pre></td></tr></table></figure>
+<h3 id="Blocks-VS-Closures（闭包）"><a href="#Blocks-VS-Closures（闭包）" class="headerlink" title="Blocks VS Closures（闭包）"></a>Blocks VS Closures（闭包）</h3><p>swift中的closure类似于OC的block，但还是有些区别。</p>
+<p><img src="http://oiu13lwmh.bkt.clouddn.com/Blocks%20VS%20Closures.png" alt="Blocks VS Closures"></p>
+<h5 id="关于两者语法的不同，可以参考"><a href="#关于两者语法的不同，可以参考" class="headerlink" title="关于两者语法的不同，可以参考"></a>关于两者语法的不同，可以参考</h5><p><a href="http://fuckingblocksyntax.com/" target="_blank" rel="external">Block Syntax</a>  and <a href="http://fuckingclosuresyntax.com" target="_blank" rel="external">Closure Syntax</a></p>
+<h3 id="Function-VS-Closures"><a href="#Function-VS-Closures" class="headerlink" title="Function VS Closures"></a>Function VS Closures</h3><p>A closure is actually a higher usage of a function type. Above, we just have two types of types; the closure is defined quite similarly to the function itself. This is because it takes the parameters and the area and the return type just as the type signage. This makes functions and closures siblings.</p>
+<h2 id="Optional可选类型"><a href="#Optional可选类型" class="headerlink" title="Optional可选类型"></a>Optional可选类型</h2><p>swift中的Optional底层就是一个带泛型的枚举类型。</p>
+<p>其源码抽象出来如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public enum Optional&lt;Wrapped&gt; : ExpressibleByNilLiteral &#123;</div><div class="line">    case none</div><div class="line">    case some(Wrapped)</div><div class="line">    </div><div class="line">    public init(_ some: Wrapped)</div><div class="line">    public init(nilLiteral: ())</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 此时定义中的Wrapped就是String类型</div><div class="line">var myName : String? = &quot;Walker&quot;</div><div class="line">	print(myName)</div><div class="line">	print(myName!)</div><div class="line"></div><div class="line">	if let name = myName &#123;</div><div class="line">		print(name)</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/swift的数据类型到底是什么尿性-说点别人没讲明白的）/" data-id="ck76887d0000elvx9jy41t1b3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/0821杂谈/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">0821杂谈</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

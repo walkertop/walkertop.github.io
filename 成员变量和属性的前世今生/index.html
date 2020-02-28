@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>成员变量和属性的前世今生 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="目录：1.简述编译器的变化对@property的影响；2.实际使用中@property和成员变量+ @property + @synthesize 成员变量的区别3.self.XXX,_XXX,self-&amp;gt;XXX的区别；4.Demo地址 历史由来：接触iOS的人都知道，@property声明的属性默认会生成一个_类型的成员变量，同时也会生成setter/getter方法。但这只是在iOS5之">
+<meta name="keywords" content="成员变量 属性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="成员变量和属性的前世今生">
+<meta property="og:url" content="http://betteris.top/成员变量和属性的前世今生/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="目录：1.简述编译器的变化对@property的影响；2.实际使用中@property和成员变量+ @property + @synthesize 成员变量的区别3.self.XXX,_XXX,self-&amp;gt;XXX的区别；4.Demo地址 历史由来：接触iOS的人都知道，@property声明的属性默认会生成一个_类型的成员变量，同时也会生成setter/getter方法。但这只是在iOS5之">
+<meta property="og:updated_time" content="2017-06-19T04:17:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="成员变量和属性的前世今生">
+<meta name="twitter:description" content="目录：1.简述编译器的变化对@property的影响；2.实际使用中@property和成员变量+ @property + @synthesize 成员变量的区别3.self.XXX,_XXX,self-&amp;gt;XXX的区别；4.Demo地址 历史由来：接触iOS的人都知道，@property声明的属性默认会生成一个_类型的成员变量，同时也会生成setter/getter方法。但这只是在iOS5之">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-成员变量和属性的前世今生" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/成员变量和属性的前世今生/" class="article-date">
+  <time datetime="2015-10-19T11:13:25.000Z" itemprop="datePublished">2015-10-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      成员变量和属性的前世今生
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="目录："><a href="#目录：" class="headerlink" title="目录："></a>目录：</h1><p>1.简述编译器的变化对@property的影响；<br>2.实际使用中@property和<code>成员变量+ @property + @synthesize 成员变量</code>的区别<br>3.<code>self.XXX</code>,<code>_XXX</code>,<code>self-&gt;XXX</code>的区别；<br>4.<a href="https://github.com/walkertop/--Demo.git" target="_blank" rel="external">Demo地址</a></p>
+<h3 id="历史由来："><a href="#历史由来：" class="headerlink" title="历史由来："></a>历史由来：</h3><p>接触iOS的人都知道，<code>@property</code>声明的属性默认会生成一个_类型的成员变量，同时也会生成<code>setter/getter</code>方法。<br>但这只是在iOS5之后，苹果推出的一个新机制。看老代码时，经常看到一个大括号里面定义了成员变量，同时用了@property声明，而且还在@implementation中使用<code>@synthesize</code>方法。<br>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@interface ViewController ()</div><div class="line">&#123;</div><div class="line">   // 1.声明成员变量</div><div class="line">    NSString *myString;  </div><div class="line"> &#125;</div><div class="line"> //2.在用@property</div><div class="line">@property(nonatomic, copy) NSString *myString;  </div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line">//3.最后在@implementation中用synthesize生成set方法</div><div class="line">@synthesize myString;   </div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>其实，发生这种状况根本原因是苹果将默认编译器从GCC转换为LLVM(<code>low level virtual machine</code>)，才不再需要为属性声明实例变量了。</p>
+<p>在没有更改之前，属性的正常写法需要<code>成员变量+ @property + @synthesize 成员变量</code>三个步骤。<br>如果我们只写<code>成员变量+ @property</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@interface GBViewController :UIViewController</div><div class="line">&#123;</div><div class="line">    NSString *myString;</div><div class="line">&#125;</div><div class="line">@property (nonatomic, strong) NSString *myString;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>编译时会报警告:</strong><br><figure class="highlight plain"><figcaption><span>property 'myString' will use synthesized instance variable '_myString', not existing instance variable 'myString''```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">但更换为LLVM之后，编译器在编译过程中发现没有新的实例变量后，就会生成一个下划线开头的实例变量。因此现在我们不必在声明一个实例变量。（**注意：是不必要，不是不可以**）</div><div class="line">当然我们也熟知，`@property`声明的属性不仅仅默认给我们生成一个_类型的成员变量，同时也会生成`setter/getter`方法。</div><div class="line"></div><div class="line">在`.m`文件中，编译器也会自动的生成一个实例变量`_XXX`。那么在.m文件中可以直接的使用`_XXX`实例变量，也可以通过属性`self. XXX`。</div><div class="line"></div><div class="line">只是我们需要注意这里的`self.XXX`实际是调用`XXX`属性的`setter/getter`方法。这与C++中点的使用是有区别的，C++中的点可以直接访问成员变量(也就是实例变量)。</div><div class="line"></div><div class="line">**例如在OC中有如下代码**</div></pre></td></tr></table></figure></p>
+<p>@interface MyViewController :UIViewController<br>{<br>    NSString *name;<br>}<br>@end<br><code>``
+在这段代码里面只是声明了一个成员变量，并没有</code>setter/getter<code>方法。所以访问成员变量时，可以直接访问</code>name<code>，也可以像C++一样用</code>self-&gt;name<code>来访问，但绝对不能用</code>self.name`来访问。</p>
+<blockquote>
+<ul>
+<li><strong>扩展</strong>:很多人觉得OC中的点语法比较奇怪，实际是OC设计人员有意为之。</li>
+<li><code>点表达式(.)</code>看起来与C语言中的结构体访问以及java语言汇总的对象访问有点类似，如果点表达式出现在等号 <code>＝</code> 左边，调用该属性名称的<code>setter</code>方法。如果点表达式出现在<code>＝</code>右边，调用该属性名称的<code>getter</code>方法。</li>
+<li>OC中<code>点表达式(.)</code>其实就是调用对象的<code>setter</code>和<code>getter</code>方法的一种快捷方式，<code>self.myString = @&quot;张三&quot;;</code>实际就是<code>[self setmyString:@&quot;张三&quot;];</code></li>
+</ul>
+</blockquote>
+<p>首先我们要明白，<code>@synthesize</code> 生成了<code>setter/getter</code>方法。<br>虽然现在直接使用<code>@property</code>时，编译器会自动为你生成以下划线开头的实例变量<code>_myString</code>，不需要自己手动再去写实例变量。而且也不在.m文件中通过<code>@synthesize myString；</code>生成<code>setter/getter</code>方法。但在看老代码的时候，我们依旧可以看到有人使用<code>成员变量+ @synthesize 成员变量</code>的形式。</p>
+<blockquote>
+<p><strong>那么问题来了：</strong><br>我们能否认为新编译器LLVM下的<code>@property</code> == 老编译器GCC的 <code>成员变量+ @property + @synthesize 成员变量</code>呢？</p>
+<p>答案是否定的，<br>因为<code>成员变量+ @property + @synthesize 成员变量</code>的形式，编译器不会帮我们生成<code>_成员变量</code>，因此不会操作<code>_成员变量</code>了；<br>同时<code>@synthesize</code> 还有一个作用，可以指定与属性对应的实例变量，<br>例如<code>@synthesize myString = xxx；</code><br>那么<code>self.myString</code>其实是操作的实例变量xxx，而非_String了。</p>
+</blockquote>
+<p>在<a href="https://github.com/walkertop/--Demo.git" target="_blank" rel="external">Demo</a>中会有非常详细的说明，欢迎下载和start。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>技术学习绝不能孤胆英雄独闯天涯，而应在一群人的交流碰撞，享受智慧火花的狂欢。<br>希望我的文章能成为你的盛宴，也渴望你的建议能成为我的大餐。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/成员变量和属性的前世今生/" data-id="ck76887d6000olvx9r3xt7ic8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/趣谈iOS运行时之方法调用原理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          趣谈iOS运行时之方法调用原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/category和extension史上最全攻略/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">category和extension史上最全攻略</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

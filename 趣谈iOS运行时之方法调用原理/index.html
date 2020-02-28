@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>趣谈iOS运行时之方法调用原理 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="导语一个成熟的计算机语言必然有丰富的体系，复杂的容错机制，处理逻辑以及判断逻辑。但这些复杂的逻辑都是围绕一个主线丰富和展开的，所以在学习计算机语言的时候，先掌握核心，然后了解其原理，明白程序语言设计的实质和当时选择这种处理方式的原因是极其必要的，而且也是学习语言的捷径。 所以在学习的过程中，需要把握几个核心  先专注主线，后丰富周边；先宏观了解，后微观精通;多设身处地思考，理解代码设计的原因;理解">
+<meta name="keywords" content="runtime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="趣谈iOS运行时之方法调用原理">
+<meta property="og:url" content="http://betteris.top/趣谈iOS运行时之方法调用原理/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="导语一个成熟的计算机语言必然有丰富的体系，复杂的容错机制，处理逻辑以及判断逻辑。但这些复杂的逻辑都是围绕一个主线丰富和展开的，所以在学习计算机语言的时候，先掌握核心，然后了解其原理，明白程序语言设计的实质和当时选择这种处理方式的原因是极其必要的，而且也是学习语言的捷径。 所以在学习的过程中，需要把握几个核心  先专注主线，后丰富周边；先宏观了解，后微观精通;多设身处地思考，理解代码设计的原因;理解">
+<meta property="og:updated_time" content="2017-06-19T04:16:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="趣谈iOS运行时之方法调用原理">
+<meta name="twitter:description" content="导语一个成熟的计算机语言必然有丰富的体系，复杂的容错机制，处理逻辑以及判断逻辑。但这些复杂的逻辑都是围绕一个主线丰富和展开的，所以在学习计算机语言的时候，先掌握核心，然后了解其原理，明白程序语言设计的实质和当时选择这种处理方式的原因是极其必要的，而且也是学习语言的捷径。 所以在学习的过程中，需要把握几个核心  先专注主线，后丰富周边；先宏观了解，后微观精通;多设身处地思考，理解代码设计的原因;理解">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-趣谈iOS运行时之方法调用原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/趣谈iOS运行时之方法调用原理/" class="article-date">
+  <time datetime="2016-01-19T04:13:53.000Z" itemprop="datePublished">2016-01-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      趣谈iOS运行时之方法调用原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h2><p>一个成熟的计算机语言必然有丰富的体系，复杂的容错机制，处理逻辑以及判断逻辑。但这些复杂的逻辑都是围绕一个主线丰富和展开的，所以在学习计算机语言的时候，先掌握核心，然后了解其原理，明白程序语言设计的实质和当时选择这种处理方式的原因是极其必要的，而且也是学习语言的捷径。</p>
+<p><strong>所以在学习的过程中，需要把握几个核心</strong></p>
+<blockquote>
+<p>先专注主线，后丰富周边；<br>先宏观了解，后微观精通;<br>多设身处地思考，理解代码设计的原因;<br>理解代码设计的原理和优化</p>
+</blockquote>
+<hr>
+<p>OC中处理方法的业务逻辑和其他语言不同，OC语言是动态语言（<code>动态绑定</code>，<code>动态加载</code>(dynamatic binding),<code>动态类型</code>）。其中动态加载就涉及到OC的运行时。在OC中，方法是动态实现的，调用方法实际就是在<code>发送消息</code>。<br><strong>试想一下，一个方法的实现必然包含三个部分：</strong></p>
+<blockquote>
+<p>1.执行方法的对象<br>2.方法名称<br>3.不确定的参数</p>
+</blockquote>
+<p><code>SEL</code>只是一个方法名称，<code>IMP</code>才是执行方法最终的函数。<code>IMP</code> 是一个函数指针,包含一个<code>接收消息的对象</code> id(self 指针), <code>调用方法的选标</code> <code>SEL</code> (方法名),以及不定个数的<code>参数</code>,并返回一个 id。也就是说 <code>IMP</code> 是消息最终调用的执行代码,是方法真正的实现代码 。</p>
+<hr>
+<p>提问时间到了：</p>
+<blockquote>
+<ul>
+<li>动态和静态有什么区别？</li>
+<li>执行方法是怎么实现的？</li>
+<li>OC的方法和C语言的函数原理一样么？</li>
+</ul>
+</blockquote>
+<p>动态和静态有区别的；首先我们从最表层理解，一个方法的实现必然要包含执行者，方法名和不确定的参数和返回值。无论是静态或者动态方法都必须这三个必要元素(<code>动态和静态的区别就在于在何时确定这些必要元素</code>)。<br>方法的执行包含编译和运行两个过程。</p>
+<blockquote>
+<ul>
+<li>静态方法是在编译时已经确定了三个要素，且不能更改。若类型不对，就会直接发出警告。</li>
+<li>而OC的动态方法可以直接跳过编译，在运行时才开始添加函数调用，决定执行方法的三个要素。这就是动态方法（至于怎么执行，下面开始讲解）</li>
+</ul>
+</blockquote>
+<p>这三个元素是如何确定的呢？首先我们看一段示例代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Dog *aDog = [[Dog alloc]init];</div><div class="line">[aDog run];</div></pre></td></tr></table></figure>
+<p>在执行方法时，是怎么确定的呢？<br>此时我们需要注意OC内部方法的实质：OC中，方法实现实质就是发送消息。<br><code>[aDog run];</code>代码的实质就是<code>[ objc_sendMsg]</code>，它会找到执行方法的三个要素，找到就按照规则执行。<br>发送消息是通过 <code>objc_send(id, SEL, ...)</code> 来实现的,它首先会在对象的类对象的 <code>cache</code>，<code>methodlist</code> 以及父类对象的 <code>cache</code>,<code>methodlist</code> 中依次查找 <code>SEL</code> 对应 的 <code>IMP</code>;<br>如果没有找到且实现了动态方法决议机制就会进行决议。</p>
+<p>如果没有实现动态方法决议机制或决议失败且实现了消息转发机制就会进入消息转发流程,否则程序 crash。<br>也就是说如果同时提供了<code>动态方法决议</code>和<code>消息转发</code>,那么动态方法决议先于消息转发,只有当动态方法决议依然无法正确决议 <code>selector</code> 的 实现,才会尝试进行消息转发。当然，实际过程不可能那么简单，在开发语言之初，肯定会完善各种复杂场景和做了很多优化，接下来我们一起研究下OC对方法执行和扩展和优化：</p>
+<blockquote>
+<ul>
+<li>第一步：先找方法</li>
+<li>第二步：动态方法决议</li>
+<li>第三部：消息转发</li>
+<li>最后： 报错</li>
+</ul>
+</blockquote>
+<h2 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h2><p>通常,给一个对象发送它不能处理的消息会得到出错提示,然而,<code>Objective-C</code>运行时系统在抛出错误之前, 会给消息接收对象发送一条特别的消息 <code>forwardInvocation</code> 来通该对象,该消息的唯一参数是个 <code>NSInvocation</code> 类型的对象——该对象封装了原始的消息和消息的参数。我们可以实现 <code>forwardInvocation:</code>方法来对不能处理的消息做一些默认的处理,也可以将消息转发给其他对 象来处理,而不抛出错误。</p>
+<blockquote>
+<ul>
+<li>1,首先去该类的方法<code>cache</code>中查找,如果找到了就返回它;</li>
+<li>2,如果没有找到,就去该类的方法列表中查找。如果在该类的方法列表中找到了,则将 <code>IMP</code> 返回,并将 它加入 <code>cache</code> 中缓存起来。根据最近使用原则,这个方法再次调用的可能性很大,缓存起来可以节省下次 调用再次查找的开销。</li>
+<li>3,如果在该类的方法列表中没找到对应的<code>IMP</code>,在通过该类结构中的<code>super_class</code>指针在其父类结构的方法列表中去查找,直到在某个父类的方法列表中找到对应的<code>IMP</code>,返回它,并加入<code>cache</code>中;</li>
+<li>4,如果在自身以及所有父类的方法列表中都没有找到对应的 <code>IMP</code>,则看是不是可以进行动态方法决议(后 面有专文讲述这个话题);</li>
+<li>5,如果动态方法决议没能解决问题,进入下面要讲的消息转发流程。便利函数:我们可以通过 <code>NSObject</code> 的一些方法获取运行时信息或动态执行一些消息:</li>
+</ul>
+</blockquote>
+<hr>
+<p>class 返回对象的类:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">isKindOfClass,isMemberOfClass 检查对象是否在指定的类继承体系中;</div><div class="line">respondsToSelector 检查对象能否相应指定的消息;</div><div class="line">conformsToProtocol 检查对象是否实现了指定协议类的方法;</div><div class="line">methodForSelector 返回指定方法实现的地址；</div><div class="line">performSelector:withObject 执行 SEL 所指代的方法</div></pre></td></tr></table></figure></p>
+<p> OC做为一门面向对象语言，自然具有面向对象的语言特性，如<code>封装</code>、<code>继承</code>、<code>多态</code>。他具有静态语言的特性(如C++)，又有动态语言的效率(动态绑定、动态加载等)。整体来说，确实是一门不错的编程语言。</p>
+<hr>
+<h2 id="OC的动态语言特性"><a href="#OC的动态语言特性" class="headerlink" title="OC的动态语言特性"></a>OC的动态语言特性</h2><p>现在，让我来想想OC的动态语言特性。OC的动态特性表现为了三个方面：<br><code>动态类型</code>、<code>动态绑定</code>、<code>动态加载</code>。<br>之所以叫做动态，是因为必须到运行时(<code>runtime</code>)才会做一些事情。</p>
+<h3 id="（1）动态类型"><a href="#（1）动态类型" class="headerlink" title="（1）动态类型"></a>（1）动态类型</h3><p>动态类型，说简单点就是id类型。动态类型是跟静态类型相对的。像内置的明确的基本类型都属于静态类型(int、NSString等)。静态类型在编译的时候就能被识别出来。所以，若程序发生了类型不对应，编译器就会发出警告。而动态类型就编译器编译的时候是不能被识别的，要等到运行时(<code>runtime</code>)，即程序运行的时候才会根据语境来识别。所以这里面就有两个概念要分清：编译时跟运行时。</p>
+<h3 id="（2）动态绑定"><a href="#（2）动态绑定" class="headerlink" title="（2）动态绑定"></a>（2）动态绑定</h3><p>动态绑定(<code>dynamic binding</code>)貌似比较难记忆，但事实上很简单，只需记住关键词<code>@selector/SEL</code>即可。先来看看“函数”，对于其他一些静态语言，比如c++,一般在编译的时候就已经将将要调用的函数的函数签名都告诉编译器了。静态的，不能改变。而在OC中，其实是没有函数的概念的，我们叫“消息机制”，所谓的函数调用就是给对象发送一条消息。这时，动态绑定的特性就来了。OC可以先跳过编译，到运行的时候才动态地添加函数调用，在运行时才决定要调用什么方法，需要传什么参数进去。这就是动态绑定，要实现他就必须用SEL变量绑定一个方法。最终形成的这个<code>SEL</code>变量就代表一个方法的引用。这里要注意一点：<code>SEL</code>并不是C里面的函数指针，虽然很像，但真心不是函数指针。<code>SEL</code>变量只是一个整数，他是该方法的ID。以前的函数调用，是根据函数名，也就是字符串去查找函数体。但现在，我们是根据一个ID整数来查找方法，整数的查找字自然要比字符串的查找快得多！所以，动态绑定的特定不仅方便，而且效率更高。</p>
+<h3 id="（3）动态加载"><a href="#（3）动态加载" class="headerlink" title="（3）动态加载"></a>（3）动态加载</h3><p>动态加载就是根据需求动态地加载资源。我对动态加载比较陌生，所以就没什么可总结的啦。等以后慢慢完善。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>技术学习绝不能孤胆英雄独闯天涯，而应在一群人的交流碰撞，享受智慧火花的狂欢。<br>希望我的文章能成为你的盛宴，也渴望你的建议能成为我的大餐。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/趣谈iOS运行时之方法调用原理/" data-id="ck76887da000wlvx95v0trx36" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/runtime/">runtime</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/史上最全ReactiveCocoa-RAC-之信号类源码解析/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          史上最全ReactiveCocoa(RAC)之信号类源码解析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/成员变量和属性的前世今生/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">成员变量和属性的前世今生</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

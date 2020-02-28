@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一篇文章全吃透—史上最全YYModel的使用详解 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开篇说明：虽然网上有很多讲解YYModel使用方法的文章，包括YYModel作者也在github上对其做了使用说明。但在我实际使用过程中，依然发现文档的不完善，比如对于复杂的模型（如多层嵌套）讲解的仍不透彻，同时本文也会介绍一神器配合YYModel使用，让你感受分分钟搞定模型创建的酸爽。当然为了减少读者的学习成本，本会对YYModel作者的文档进行丰富和扩展。可在github上下载Demo，以便更">
+<meta name="keywords" content="YYModel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一篇文章全吃透—史上最全YYModel的使用详解">
+<meta property="og:url" content="http://betteris.top/一篇文章全吃透—史上最全YYModel的使用详解/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="开篇说明：虽然网上有很多讲解YYModel使用方法的文章，包括YYModel作者也在github上对其做了使用说明。但在我实际使用过程中，依然发现文档的不完善，比如对于复杂的模型（如多层嵌套）讲解的仍不透彻，同时本文也会介绍一神器配合YYModel使用，让你感受分分钟搞定模型创建的酸爽。当然为了减少读者的学习成本，本会对YYModel作者的文档进行丰富和扩展。可在github上下载Demo，以便更">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1467716-33ae643a0ca314fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1467716-5c961bc376c72984.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-06-19T04:35:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一篇文章全吃透—史上最全YYModel的使用详解">
+<meta name="twitter:description" content="开篇说明：虽然网上有很多讲解YYModel使用方法的文章，包括YYModel作者也在github上对其做了使用说明。但在我实际使用过程中，依然发现文档的不完善，比如对于复杂的模型（如多层嵌套）讲解的仍不透彻，同时本文也会介绍一神器配合YYModel使用，让你感受分分钟搞定模型创建的酸爽。当然为了减少读者的学习成本，本会对YYModel作者的文档进行丰富和扩展。可在github上下载Demo，以便更">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1467716-33ae643a0ca314fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-一篇文章全吃透—史上最全YYModel的使用详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/一篇文章全吃透—史上最全YYModel的使用详解/" class="article-date">
+  <time datetime="2016-07-19T04:32:49.000Z" itemprop="datePublished">2016-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一篇文章全吃透—史上最全YYModel的使用详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>开篇说明：</strong><br>虽然网上有很多讲解YYModel使用方法的文章，包括YYModel作者也在github上对其做了使用说明。<br>但在我实际使用过程中，依然发现文档的不完善，比如对于复杂的模型（如多层嵌套）讲解的仍不透彻，同时本文也会介绍一神器配合YYModel使用，让你感受分分钟搞定模型创建的酸爽。<br>当然为了减少读者的学习成本，本会对YYModel作者的文档进行丰富和扩展。<br>可在github上下载<a href="https://github.com/walkertop/YYModel---Demo" target="_blank" rel="external">Demo</a>，以便更直观了解各种使用场景详细代码。<br>文章只要包含：</p>
+<blockquote>
+<ul>
+<li><ol>
+<li>详解YYModel的多种使用场景</li>
+</ol>
+</li>
+<li><ol>
+<li>拓展插件，让你一分钟搞定所有的模型的创建和调用。</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<h2 id="一、YYModel的使用场景"><a href="#一、YYModel的使用场景" class="headerlink" title="一、YYModel的使用场景"></a>一、YYModel的使用场景</h2><h3 id="1-简单的-Model-与-JSON-相互转换"><a href="#1-简单的-Model-与-JSON-相互转换" class="headerlink" title="1.简单的 Model 与 JSON 相互转换"></a>1.简单的 Model 与 JSON 相互转换</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// JSON:</div><div class="line">&#123;</div><div class="line">    &quot;uid&quot;:123456,</div><div class="line">    &quot;name&quot;:&quot;Harry&quot;,</div><div class="line">    &quot;created&quot;:&quot;1965-07-31T00:00:00+0000&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Model:</div><div class="line">@interface User : NSObject</div><div class="line">@property UInt64 uid;</div><div class="line">@property NSString *name;</div><div class="line">@property NSDate *created;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation User</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 将 JSON (NSData,NSString,NSDictionary) 转换为 Model:</div><div class="line">User *user = [User yy_modelWithJSON:json];</div><div class="line"></div><div class="line">// 将 Model 转换为 JSON 对象:</div><div class="line">NSDictionary *json = [user yy_modelToJSONObject];</div></pre></td></tr></table></figure>
+<p> JSON/Dictionary 中的对象类型与 Model 属性不一致时，YYModel 将会进行如下自动转换。自动转换不支持的值将会被忽略，以避免各种潜在的崩溃问题。<br><img src="http://upload-images.jianshu.io/upload_images/1467716-33ae643a0ca314fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="格式自动转换.png"></p>
+<h4 id="2-Model-属性名和-JSON-中的-Key-不相同"><a href="#2-Model-属性名和-JSON-中的-Key-不相同" class="headerlink" title="2.Model 属性名和 JSON 中的 Key 不相同"></a>2.Model 属性名和 JSON 中的 Key 不相同</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">// JSON:</div><div class="line">&#123;</div><div class="line">    &quot;n&quot;:&quot;Harry Pottery&quot;,</div><div class="line">    &quot;p&quot;: 256,</div><div class="line">    &quot;ext&quot; : &#123;</div><div class="line">        &quot;desc&quot; : &quot;A book written by J.K.Rowing.&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;ID&quot; : 100010</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Model:</div><div class="line">@interface Book : NSObject</div><div class="line">@property NSString *name;</div><div class="line">@property NSInteger page;</div><div class="line">@property NSString *desc;</div><div class="line">@property NSString *bookID;</div><div class="line">@end</div><div class="line">@implementation Book</div><div class="line">//返回一个 Dict，将 Model 属性名对映射到 JSON 的 Key。</div><div class="line">+ (NSDictionary *)modelCustomPropertyMapper &#123;</div><div class="line">    return @&#123;@&quot;name&quot; : @&quot;n&quot;,</div><div class="line">             @&quot;page&quot; : @&quot;p&quot;,</div><div class="line">             @&quot;desc&quot; : @&quot;ext.desc&quot;,</div><div class="line">             @&quot;bookID&quot; : @[@&quot;id&quot;,@&quot;ID&quot;,@&quot;book_id&quot;]&#125;;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>你可以把一个或一组 json key (key path) 映射到一个或多个属性。如果一个属性没有映射关系，那默认会使用相同属性名作为映射。<br>在 json-&gt;model 的过程中：如果一个属性对应了多个 json key，那么转换过程会按顺序查找，并使用第一个不为空的值。<br>在 model-&gt;json 的过程中：如果一个属性对应了多个 json key (key path)，那么转换过程仅会处理第一个 json key (key path)；如果多个属性对应了同一个 json key，则转换过过程会使用其中任意一个不为空的值。</p>
+<h3 id="3-Model-包含其他-Model"><a href="#3-Model-包含其他-Model" class="headerlink" title="3.Model 包含其他 Model"></a>3.Model 包含其他 Model</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">// JSON</div><div class="line">&#123;</div><div class="line">    &quot;author&quot;:&#123;</div><div class="line">        &quot;name&quot;:&quot;J.K.Rowling&quot;,</div><div class="line">        &quot;birthday&quot;:&quot;1965-07-31T00:00:00+0000&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;name&quot;:&quot;Harry Potter&quot;,</div><div class="line">    &quot;pages&quot;:256</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Model: 什么都不用做，转换会自动完成</div><div class="line">@interface Author : NSObject</div><div class="line">@property NSString *name;</div><div class="line">@property NSDate *birthday;</div><div class="line">@end</div><div class="line">@implementation Author</div><div class="line">@end</div><div class="line"></div><div class="line">@interface Book : NSObject</div><div class="line">@property NSString *name;</div><div class="line">@property NSUInteger pages;</div><div class="line">@property Author *author; //Book 包含 Author 属性</div><div class="line">@end</div><div class="line">@implementation Book</div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="4-容器类属性"><a href="#4-容器类属性" class="headerlink" title="4.容器类属性"></a>4.容器类属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">@class Shadow, Border, Attachment;</div><div class="line"></div><div class="line">@interface Attributes</div><div class="line">@property NSString *name;</div><div class="line">@property NSArray *shadows; //Array&lt;Shadow&gt;</div><div class="line">@property NSSet *borders; //Set&lt;Border&gt;</div><div class="line">@property NSMutableDictionary *attachments; //Dict&lt;NSString,Attachment&gt;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation Attributes</div><div class="line">// 返回容器类中的所需要存放的数据类型 (以 Class 或 Class Name 的形式)。</div><div class="line">+ (NSDictionary *)modelContainerPropertyGenericClass &#123;</div><div class="line">    return @&#123;@&quot;shadows&quot; : [Shadow class],</div><div class="line">             @&quot;borders&quot; : Border.class,</div><div class="line">             @&quot;attachments&quot; : @&quot;Attachment&quot; &#125;;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>在实际使用过过程中，<code>[Shadow class]</code>，<code>Border.class</code>，<code>@&quot;Attachment&quot;</code>没有明显的区别。<br>这里仅仅是创建作者有说明，实际使用时，需要对其遍历，取出容器中得字典，然后继续字典转模型。（<strong><strong>YYModel</strong></strong>的核心是通过<strong><strong>runtime</strong></strong>获取结构体中得<strong><strong>Ivars</strong></strong>的值，将此值定义为<strong><strong>key,</strong></strong>然后给<strong><strong>key</strong></strong>赋<strong><strong>value</strong></strong>值，所以我们需要自己遍历容器（<strong><strong>NSArray</strong></strong>，<strong><strong>NSSet</strong></strong>，<strong><strong>NSDictionary</strong></strong>），获取每一个值，然后<strong><strong>KVC</strong></strong>）。</p>
+<ul>
+<li>具体的代码实现如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">NSDictionary *json =[self getJsonWithJsonName:@&quot;ContainerModel&quot;];</div><div class="line">ContainerModel *containModel = [ContainerModel yy_modelWithDictionary:json];</div><div class="line">NSDictionary *dataDict = [containModel valueForKey:@&quot;data&quot;];</div><div class="line">//定义数组，接受key为list的数组</div><div class="line">self.listArray = [dataDict valueForKey:@&quot;list&quot;]; </div><div class="line"> //遍历数组</div><div class="line">[self.listArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</div><div class="line">        NSDictionary *listDict = obj;</div><div class="line">        //获取数组中得字典</div><div class="line">        List *listModel = [List yy_modelWithDictionary:listDict];</div><div class="line">        //获取count 和 id</div><div class="line">        NSString *count = [listModel valueForKey:@&quot;count&quot;];</div><div class="line">        NSString *id = [listModel valueForKey:@&quot;id&quot;];</div></pre></td></tr></table></figure>
+<h3 id="5-黑名单与白名单"><a href="#5-黑名单与白名单" class="headerlink" title="5.黑名单与白名单"></a>5.黑名单与白名单</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@interface User</div><div class="line">@property NSString *name;</div><div class="line">@property NSUInteger age;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation Attributes</div><div class="line">// 如果实现了该方法，则处理过程中会忽略该列表内的所有属性</div><div class="line">+ (NSArray *)modelPropertyBlacklist &#123;</div><div class="line">    return @[@&quot;test1&quot;, @&quot;test2&quot;];</div><div class="line">&#125;</div><div class="line">// 如果实现了该方法，则处理过程中不会处理该列表外的属性。</div><div class="line">+ (NSArray *)modelPropertyWhitelist &#123;</div><div class="line">    return @[@&quot;name&quot;];</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="6-数据校验与自定义转换"><a href="#6-数据校验与自定义转换" class="headerlink" title="6.数据校验与自定义转换"></a>6.数据校验与自定义转换</h3><p>实际这个分类的目的比较简单和明确。<br>就是对判断是否为时间戳，然后对时间戳进行处理，调用<br><code>_createdAt = [NSDate dateWithTimeIntervalSince1970:timestamp.floatValue];</code><br>获取时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// JSON:</div><div class="line">&#123;</div><div class="line">    &quot;name&quot;:&quot;Harry&quot;,</div><div class="line">    &quot;timestamp&quot; : 1445534567     //时间戳</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Model:</div><div class="line">@interface User</div><div class="line">@property NSString *name;</div><div class="line">@property NSDate *createdAt;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation User</div><div class="line">// 当 JSON 转为 Model 完成后，该方法会被调用。</div><div class="line">// 你可以在这里对数据进行校验，如果校验不通过，可以返回 NO，则该 Model 会被忽略。</div><div class="line">// 你也可以在这里做一些自动转换不能完成的工作。</div><div class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic &#123;</div><div class="line">    NSNumber *timestamp = dic[@&quot;timestamp&quot;];</div><div class="line">    if (![timestamp isKindOfClass:[NSNumber class]]) return NO;</div><div class="line">    _createdAt = [NSDate dateWithTimeIntervalSince1970:timestamp.floatValue];</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 当 Model 转为 JSON 完成后，该方法会被调用。</div><div class="line">// 你可以在这里对数据进行校验，如果校验不通过，可以返回 NO，则该 Model 会被忽略。</div><div class="line">// 你也可以在这里做一些自动转换不能完成的工作。</div><div class="line">- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic &#123;</div><div class="line">    if (!_createdAt) return NO;</div><div class="line">    dic[@&quot;timestamp&quot;] = @(n.timeIntervalSince1970);</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>需要注意的时，如果用插件，对时间戳类型或默认创建为NSUInteger类型，需要将其更改为NSDate类型。</li>
+</ul>
+</blockquote>
+<h3 id="7-Coding-Copying-hash-equal-description"><a href="#7-Coding-Copying-hash-equal-description" class="headerlink" title="7.Coding/Copying/hash/equal/description"></a>7.Coding/Copying/hash/equal/description</h3><p>以下方法都是YYModel的简单封装，实际使用过程和系统方法区别不大。对其感兴趣的可以点进方法内部查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">@interface YYShadow :NSObject &lt;NSCoding, NSCopying&gt;</div><div class="line">@property (nonatomic, copy) NSString *name;</div><div class="line">@property (nonatomic, assign) CGSize size;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation YYShadow</div><div class="line">// 直接添加以下代码即可自动完成</div><div class="line">- (void)encodeWithCoder:(NSCoder *)aCoder &#123; </div><div class="line"> [self yy_modelEncodeWithCoder:aCoder]; </div><div class="line">&#125;</div><div class="line">- (id)initWithCoder:(NSCoder *)aDecoder &#123;</div><div class="line">  self = [super init];</div><div class="line">  return [self yy_modelInitWithCoder:aDecoder]; </div><div class="line">&#125;</div><div class="line">- (id)copyWithZone:(NSZone *)zone &#123; </div><div class="line"> return [self yy_modelCopy]; </div><div class="line">&#125;</div><div class="line">- (NSUInteger)hash &#123; </div><div class="line"> return [self yy_modelHash]; </div><div class="line">&#125;</div><div class="line">- (BOOL)isEqual:(id)object &#123; </div><div class="line"> return [self yy_modelIsEqual:object]; </div><div class="line">&#125;</div><div class="line">- (NSString *)description &#123; </div><div class="line"> return [self yy_modelDescription]; </div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>-</p>
+<h2 id="二、ESJsonFormat与YYModel的结合使用"><a href="#二、ESJsonFormat与YYModel的结合使用" class="headerlink" title="二、ESJsonFormat与YYModel的结合使用"></a>二、ESJsonFormat与YYModel的结合使用</h2><p><strong>彩蛋</strong><br>给大家介绍一款插件，配合<a href="https://github.com/EnjoySR/ESJsonFormat-Xcode" target="_blank" rel="external">ESJsonFormat</a></p>
+<p>配图：<br><img src="http://upload-images.jianshu.io/upload_images/1467716-5c961bc376c72984.gif?imageMogr2/auto-orient/strip" alt="ESJsonFormat插件使用.gif"></p>
+<p>使用方法：<br>快捷键：<code>shift + control + J</code><br>插件安装方法比较简单，在此不赘述，不知道可自行google。</p>
+<p><strong>好处</strong>：</p>
+<blockquote>
+<ul>
+<li><ol>
+<li>可以直接将json数据复制，ESJsonFormat会根据数据类型自动生成属性。（建议还是要自行检查，比如时间戳，系统会默认帮你生成为NSUInteger，而我们想要的为NSDate类型）</li>
+</ol>
+</li>
+<li><ol>
+<li>对于多模型嵌套，不必创建多个文件，ESJsonFormat会自动在一个文件下创建多重类型,极其便捷。</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<p>至此YYModel的使用已讲解完毕，关于YYModel的底层核心是<code>运用runtime获取类结构体中Ivars，进行KVC操作，然后根据不同情况进行分别处理</code>。<br>此处只是传递给大家一个概念，不展开讲解，网上有很多源码分析文章，可自学google学习。<br>文末，做个综述。<br>建议大家有时间一定要多看底层，分析源码。不要只会用，知其然不知其所以然。<br>如有错误欢迎指出。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/一篇文章全吃透—史上最全YYModel的使用详解/" data-id="ck76887d3000ilvx9izjz150w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/YYModel/">YYModel</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同
+        
+      </div>
+    </a>
+  
+  
+    <a href="/KVC和runtime字典转模型对比分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">KVC和runtime字典转模型对比分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

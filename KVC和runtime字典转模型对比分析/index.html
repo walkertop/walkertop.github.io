@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>KVC和runtime字典转模型对比分析 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文分为两部分： 一：教你怎样一部获取成员属性（通过NSObject+autoLogProperty分类）二：对比KVC和runtime两种字典转模型的方法并抽取一个分类  一：自定义分类，打印字典转模型的属性声明12345678910111213141516171819202122232425262728+ (void)createPropertyCodeWithDict:(NSDiction">
+<meta name="keywords" content="KVC Runtime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KVC和runtime字典转模型对比分析">
+<meta property="og:url" content="http://betteris.top/KVC和runtime字典转模型对比分析/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="本文分为两部分： 一：教你怎样一部获取成员属性（通过NSObject+autoLogProperty分类）二：对比KVC和runtime两种字典转模型的方法并抽取一个分类  一：自定义分类，打印字典转模型的属性声明12345678910111213141516171819202122232425262728+ (void)createPropertyCodeWithDict:(NSDiction">
+<meta property="og:updated_time" content="2017-06-19T04:27:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KVC和runtime字典转模型对比分析">
+<meta name="twitter:description" content="本文分为两部分： 一：教你怎样一部获取成员属性（通过NSObject+autoLogProperty分类）二：对比KVC和runtime两种字典转模型的方法并抽取一个分类  一：自定义分类，打印字典转模型的属性声明12345678910111213141516171819202122232425262728+ (void)createPropertyCodeWithDict:(NSDiction">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-KVC和runtime字典转模型对比分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/KVC和runtime字典转模型对比分析/" class="article-date">
+  <time datetime="2016-06-18T16:25:33.000Z" itemprop="datePublished">2016-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      KVC和runtime字典转模型对比分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文分为两部分：</p>
+<p>一：教你怎样一部获取成员属性（通过NSObject+autoLogProperty分类）<br>二：对比KVC和runtime两种字典转模型的方法并抽取一个分类</p>
+</blockquote>
+<h1 id="一：自定义分类，打印字典转模型的属性声明"><a href="#一：自定义分类，打印字典转模型的属性声明" class="headerlink" title="一：自定义分类，打印字典转模型的属性声明"></a><strong>一：自定义分类，打印字典转模型的属性声明</strong></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">+ (void)createPropertyCodeWithDict:(NSDictionary *)dict</div><div class="line">&#123;</div><div class="line">    NSMutableString *strM = [NSMutableString string];</div><div class="line">    </div><div class="line">    // 遍历字典</div><div class="line">    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull propertyName, id  _Nonnull value, BOOL * _Nonnull stop) &#123;</div><div class="line">        NSString *code;</div><div class="line">        //__NSCFString  &lt;——&gt;   NSString类型</div><div class="line">        //__NSCFNumber  &lt;——&gt;   int类型</div><div class="line">        //__NSCFArray  &lt;——&gt;    NSArray类型</div><div class="line">        //__NSCFDictionary  &lt;——&gt;   NSDictionary类型</div><div class="line">        //__NSCFBoolean  &lt;——&gt;   BOOL类型</div><div class="line"></div><div class="line">        if ([value isKindOfClass:NSClassFromString(@&quot;__NSCFString&quot;)]) &#123;</div><div class="line">            code = [NSString stringWithFormat:@&quot;@property (nonatomic, strong) NSString *%@;&quot;,propertyName];</div><div class="line">        &#125;else if ([value isKindOfClass:NSClassFromString(@&quot;__NSCFNumber&quot;)])&#123;</div><div class="line">            code = [NSString stringWithFormat:@&quot;@property (nonatomic, assign) int %@;&quot;,propertyName];</div><div class="line">        &#125;else if ([value isKindOfClass:NSClassFromString(@&quot;__NSCFArray&quot;)])&#123;</div><div class="line">            code = [NSString stringWithFormat:@&quot;@property (nonatomic, strong) NSArray *%@;&quot;,propertyName];</div><div class="line">        &#125;else if ([value isKindOfClass:NSClassFromString(@&quot;__NSCFDictionary&quot;)])&#123;</div><div class="line">            code = [NSString stringWithFormat:@&quot;@property (nonatomic, strong) NSDictionary *%@;&quot;,propertyName];</div><div class="line">        &#125;else if ([value isKindOfClass:NSClassFromString(@&quot;__NSCFBoolean&quot;)])&#123;</div><div class="line">            code = [NSString stringWithFormat:@&quot;@property (nonatomic, assign) BOOL %@;&quot;,propertyName];</div><div class="line">        &#125;</div><div class="line">        [strM appendFormat:@&quot;\n%@\n&quot;,code];</div><div class="line">    &#125;];</div><div class="line">    NSLog(@&quot;%@&quot;,strM);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="1-核心思想："><a href="#1-核心思想：" class="headerlink" title="1.核心思想："></a>1.<strong>核心思想：</strong></h2><pre><code>1.遍历自定义类中的成员变量
+
+2.将遍历获取的成员变量定为value,复制给类中的ivar.
+</code></pre><h2 id="2-runtime字典转模型与KVC赋值的区别"><a href="#2-runtime字典转模型与KVC赋值的区别" class="headerlink" title="2.runtime字典转模型与KVC赋值的区别:"></a>2.<strong>runtime字典转模型与KVC赋值的区别:</strong></h2><pre><code>KVC是调用`setValue: forKey: `的方法，将系统的成员变量作为value，自定义的属性为key
+如果自定义的属性找不到就必须要调用     `- (void)setValue:(id)value forUndefinedKey:(NSString *)key;`
+来处理报错。
+但是runtime的字典转模型是将自定义属性生成的下划线成员变量变为key.
+`setValuesForKeysWithDictionary:`就不会出现找不到key而报错的问题了。
+</code></pre><hr>
+<h1 id="两种字典转模型的代码："><a href="#两种字典转模型的代码：" class="headerlink" title="两种字典转模型的代码："></a><strong>两种字典转模型的代码：</strong></h1><h2 id="1-KVC方式字典转模型"><a href="#1-KVC方式字典转模型" class="headerlink" title="1.KVC方式字典转模型"></a>1.KVC方式字典转模型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">+ (StatusModel *)statusWithDict:(NSDictionary *)dict</div><div class="line">&#123;</div><div class="line">    StatusModel *statusModel = [[self alloc] init];</div><div class="line">    // KVC</div><div class="line">    [statusModel setValuesForKeysWithDictionary:dict];</div><div class="line">    return statusModel;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 解决KVC报错</div><div class="line">- (void)setValue:(id)value forUndefinedKey:(NSString *)key</div><div class="line">&#123;</div><div class="line">//可以为空，表示不处理，也可以为做一些转换操作</div><div class="line">//    if ([key isEqualToString:@&quot;XXX&quot;]) &#123;</div><div class="line">//        _### = [value integerValue];</div><div class="line">//    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-runtime字典转模型"><a href="#2-runtime字典转模型" class="headerlink" title="2.runtime字典转模型"></a>2.runtime字典转模型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">+ (instancetype)modelWithDict:(NSDictionary *)dict &#123;</div><div class="line">    id objc = [[self alloc] init];</div><div class="line">    unsigned int count = 0;</div><div class="line">    Ivar *ivarList = class_copyIvarList(self, &amp;count);</div><div class="line">    for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">        //获取属性名</div><div class="line">        Ivar ivar = ivarList[i];</div><div class="line">        </div><div class="line">        //获取成员名</div><div class="line">        NSString *propertyName = [NSString stringWithUTF8String:ivar_getName(ivar)];</div><div class="line">        </div><div class="line">        //获取key</div><div class="line">        NSString *key = [propertyName substringFromIndex:1];   //取出下划线_</div><div class="line">        //获取字典中的value</div><div class="line">        id value = dict[key];</div><div class="line">        </div><div class="line">        //获取成员属性类型</div><div class="line">        NSString *propertyType = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];</div><div class="line"></div><div class="line">        //此处为二级转换，如果里面的为字典类型，且属性类型为二级模型的名字，不为NSDictionary</div><div class="line">        if ([value isKindOfClass:[NSDictionary class]] &amp;&amp; ![propertyType containsString:@&quot;NS&quot;]) &#123; // 需要字典转换成模型</div><div class="line">            // 转换成哪个类型</div><div class="line">            // 打印出来的值为  @&quot;@\&quot;User\&quot;&quot;, 截取成User</div><div class="line">            // 字符串截取</div><div class="line">            NSRange range = [propertyType rangeOfString:@&quot;\&quot;&quot;];</div><div class="line">            propertyType = [propertyType substringFromIndex:range.location + range.length];</div><div class="line">            //此时变为 User\&quot;&quot;;,借着截取掉后面的\&quot;&quot;</div><div class="line">            range = [propertyType rangeOfString:@&quot;\&quot;&quot;];</div><div class="line">            propertyType = [propertyType substringToIndex:range.location];</div><div class="line">            </div><div class="line">            // 获取需要转换类的类对象</div><div class="line">            Class modelClass =  NSClassFromString(propertyType);</div><div class="line">            </div><div class="line">            if (modelClass) &#123;</div><div class="line">                value =  [modelClass modelWithDict:value];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (value) &#123;</div><div class="line">            // KVC赋值:不能传空</div><div class="line">            [objc setValue:value forKey:key];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return objc;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="3-具体使用"><a href="#3-具体使用" class="headerlink" title="3.具体使用"></a>3.<strong>具体使用</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">    NSString *filePath = [[NSBundle mainBundle] pathForResource:@&quot;status.plist&quot; ofType:nil];</div><div class="line">    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:filePath];</div><div class="line">    </div><div class="line">    //log方法属性</div><div class="line">    NSArray *dictArr = dict[@&quot;statuses&quot;];</div><div class="line">    [[self class] createPropertyCodeWithDict:dictArr[0]];            //打印StatusModel的属性</div><div class="line">    [[self class] createPropertyCodeWithDict:dictArr[0][@&quot;user&quot;]];   //打印UserModel的属性</div><div class="line">    </div><div class="line">    NSMutableArray *statuses = [NSMutableArray array];</div><div class="line">    // 遍历字典数组</div><div class="line">    for (NSDictionary *dict in dictArr) &#123;</div><div class="line">//        KVC字典转模型，调用setValueForKeyWithDictionary:方法</div><div class="line">//        StatusModel *statusModel = [StatusModel statusWithDict:dict];</div><div class="line">        </div><div class="line">//       runtime字典转模型，调用分类方法</div><div class="line">        StatusModel *statusModel = [StatusModel modelWithDict:dict];</div><div class="line">        [statuses addObject:statusModel];</div><div class="line">    &#125;</div><div class="line">    NSLog(@&quot;%@&quot;,statuses);</div><div class="line">    self.dataArray = statuses;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//懒加载dataArray</div><div class="line">- (NSMutableArray *)dataArray</div><div class="line">&#123;</div><div class="line">    if (!_dataArray) &#123;</div><div class="line">        _dataArray  = [NSMutableArray array];</div><div class="line">    &#125;</div><div class="line">    return _dataArray;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/walkertop/Runtime-" target="_blank" rel="external">点击下载demo</a></p>
+<p>注意：demo中的工具类可以抽取使用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/KVC和runtime字典转模型对比分析/" data-id="ck76887cp0002lvx9kycu4hxc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/一篇文章全吃透—史上最全YYModel的使用详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          一篇文章全吃透—史上最全YYModel的使用详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/runloop/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">对，我就是RunLoop</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同 | Walker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从iOS7开始，控制器就默认添加了全屏属性，因此，你就有更多的方式去操作view的布局，具体用到的属性包括：  edgesForExtendedLayout automaticallyAdjustsScrollViewInsets extendedLayoutIncludesOpaqueBars   edgesForExtendedLayout我们可以根据以上属性设置view的铺满样式。想象一下，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同">
+<meta property="og:url" content="http://betteris.top/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/index.html">
+<meta property="og:site_name" content="Walker">
+<meta property="og:description" content="从iOS7开始，控制器就默认添加了全屏属性，因此，你就有更多的方式去操作view的布局，具体用到的属性包括：  edgesForExtendedLayout automaticallyAdjustsScrollViewInsets extendedLayoutIncludesOpaqueBars   edgesForExtendedLayout我们可以根据以上属性设置view的铺满样式。想象一下，">
+<meta property="og:image" content="https://i.stack.imgur.com/MOB6v.png">
+<meta property="og:image" content="https://i.stack.imgur.com/ojAvO.png">
+<meta property="og:image" content="https://i.stack.imgur.com/9Iapl.png">
+<meta property="og:image" content="https://i.stack.imgur.com/VVQHQ.png">
+<meta property="og:updated_time" content="2017-06-19T04:40:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同">
+<meta name="twitter:description" content="从iOS7开始，控制器就默认添加了全屏属性，因此，你就有更多的方式去操作view的布局，具体用到的属性包括：  edgesForExtendedLayout automaticallyAdjustsScrollViewInsets extendedLayoutIncludesOpaqueBars   edgesForExtendedLayout我们可以根据以上属性设置view的铺满样式。想象一下，">
+<meta name="twitter:image" content="https://i.stack.imgur.com/MOB6v.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Walker" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Walker</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Better is top!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://betteris.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/" class="article-date">
+  <time datetime="2017-01-19T04:36:23.000Z" itemprop="datePublished">2017-01-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从iOS7开始，控制器就默认添加了全屏属性，因此，你就有更多的方式去操作view的布局，具体用到的属性包括：</p>
+<ul>
+<li>edgesForExtendedLayout</li>
+<li>automaticallyAdjustsScrollViewInsets</li>
+<li>extendedLayoutIncludesOpaqueBars</li>
+</ul>
+<hr>
+<h2 id="edgesForExtendedLayout"><a href="#edgesForExtendedLayout" class="headerlink" title="edgesForExtendedLayout"></a><code>edgesForExtendedLayout</code></h2><p>我们可以根据以上属性设置view的铺满样式。<br>想象一下，默认情况下，我们从一个普通的UIViewController跳转到一个UINavigationController，view默认的展示样式是从导航栏底部开始。<br>但是你可以通过设置<code>edgesForExtendedLayout</code>为不同类型来控制view的样式(top, left, bottom, right)。</p>
+<p>可以看一下例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UIViewController *viewController = [[UIViewController alloc] init];</div><div class="line">viewController.view.backgroundColor = [UIColor redColor];</div><div class="line">UINavigationController *mainNavigationController = [[UINavigationController alloc] initWithRootViewController:viewController];</div></pre></td></tr></table></figure></p>
+<p>你没有设置<code>edgesForExtendedLayout</code>的值，其默认的值是<code>UIRectEdgeAll</code>，所以view是延伸到整个屏幕的高度。<br>效果如下图：<br><img src="https://i.stack.imgur.com/MOB6v.png" alt=""></p>
+<p>如你所见，红色背景延伸到了状态栏（status bar）下面。<br>假若你将 <code>edgesForExtendedLayout</code>的值设置为<code>UIRectEdgeNone</code>，意味着你告诉view不要讲其扩展到整个屏幕。<br>其效果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">UIViewController *viewController = [[UIViewController alloc] init];</div><div class="line">viewController.view.backgroundColor = [UIColor redColor];</div><div class="line">viewController.edgesForExtendedLayout = UIRectEdgeNone;</div><div class="line">UINavigationController *mainNavigationController = [[UINavigationController alloc] initWithRootViewController:viewController];</div></pre></td></tr></table></figure>
+<p><img src="https://i.stack.imgur.com/ojAvO.png" alt=""></p>
+<hr>
+<p>关于另外一个属性<code>automaticallyAdjustsScrollViewInsets</code>.<br>这个属性属于UIScrollView或包含UIScrollView的控制器（比如UITableView继承自UIScrollView，UIWebView中也包含UIScrollView）。<br>如果你想要你的view从导航栏底部开始，但是在滑动时，让其穿透到导航栏的底部。<br>在这种情况下，如果你将<code>edgesForExtendedLayout</code>设置为<code>UIRectEdgeNone</code>，虽然可以从导航栏底部开始，但滑动时无法穿透到导航栏底部。</p>
+<p>怎么办呢？</p>
+<p>这时候就显示出<code>automaticallyAdjustsScrollViewInsets</code>的作用了。<br>如果你将<code>edgesForExtendedLayout</code>的值设置为<code>UIRectEdgeAll</code>，<code>automaticallyAdjustsScrollViewInsets</code>设置为YES(<code>edgesForExtendedLayout</code>默认为<code>UIRectEdgeAll</code>，<code>automaticallyAdjustsScrollViewInsets</code>默认就是YES),就能实现上述需求。<br>具体如下图：<br><img src="https://i.stack.imgur.com/9Iapl.png" alt=""><br>上图是将<code>edgesForExtendedLayout</code>设置为<code>UIRectEdgeAll</code>，<code>automaticallyAdjustsScrollViewInsets</code>默认就是NO的情况)。</p>
+<hr>
+<p>下图是将<code>edgesForExtendedLayout</code>设置为<code>UIRectEdgeAll</code>，<code>automaticallyAdjustsScrollViewInsets</code>默认就是YES的情况)(也就是系统默认情况)<br><img src="https://i.stack.imgur.com/VVQHQ.png" alt=""></p>
+<hr>
+<p>关于另外一个属性。<br>字面意思是：是否延伸到包含不透明的状态栏。</p>
+<ul>
+<li><code>extendedLayoutIncludesOpaqueBars</code><br>这个值是一个补充,默认值是NO;<br>默认的苹果的状态栏（status bar）是透明的。如果状态栏不透明，这个试图就不回扩展到不透明的状态栏底部，除非将其值设置为YES<br>This value is just an addition to the previous ones. If the status bar is opaque, the views won’t be extended to include the status bar too, unless this parameter is YES.<br>所以如果状态栏不透明，即使你设置<code>edgesForExtendedLayout</code> 为 <code>UIRectEdgeAll</code>，<code>extendedLayoutIncludesOpaqueBars</code>为NO(默认如此)，view不会延伸到状态栏底部的。</li>
+</ul>
+<hr>
+<h4 id="怎么判断UIScrollView在使用？"><a href="#怎么判断UIScrollView在使用？" class="headerlink" title="怎么判断UIScrollView在使用？"></a>怎么判断UIScrollView在使用？</h4><p>iOS会抓取控制器view的第一个子视图，（也就是index = 0），如果是UIScrollView或者UIScrollView的子类，就可以使用上文描述的属性。</p>
+<p>如果视图是普通的UIView，可以添加一个线来解决。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.navigationController.navigationBar.translucent = NO;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://betteris.top/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/" data-id="ck76887d9000ulvx9aal0stda" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/《把时间当作朋友》读书笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          《把时间当作朋友》读书笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/一篇文章全吃透—史上最全YYModel的使用详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一篇文章全吃透—史上最全YYModel的使用详解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/KVC-Runtime/">KVC Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC/">RAC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RAC-MVVM/">RAC MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YYModel/">YYModel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/category/">category</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-RunLoop/">iOS RunLoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime/">runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/runtime-KVO/">runtime, KVO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/setter-getter/">setter/getter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/成员变量-属性/">成员变量 属性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/KVC-Runtime/" style="font-size: 10px;">KVC Runtime</a> <a href="/tags/RAC/" style="font-size: 20px;">RAC</a> <a href="/tags/RAC-MVVM/" style="font-size: 10px;">RAC MVVM</a> <a href="/tags/YYModel/" style="font-size: 10px;">YYModel</a> <a href="/tags/category/" style="font-size: 10px;">category</a> <a href="/tags/iOS-RunLoop/" style="font-size: 10px;">iOS RunLoop</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/runtime-KVO/" style="font-size: 10px;">runtime, KVO</a> <a href="/tags/setter-getter/" style="font-size: 10px;">setter/getter</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/成员变量-属性/" style="font-size: 10px;">成员变量 属性</a> <a href="/tags/读书笔记/" style="font-size: 10px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/swift的数据类型到底是什么尿性-说点别人没讲明白的）/">swift的数据类型到底是什么尿性 (说点别人没讲明白的）</a>
+          </li>
+        
+          <li>
+            <a href="/0821杂谈/">0821杂谈</a>
+          </li>
+        
+          <li>
+            <a href="/紧张兮兮的一个月/">紧张兮兮的一个月</a>
+          </li>
+        
+          <li>
+            <a href="/《把时间当作朋友》读书笔记/">《把时间当作朋友》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同/">解释automaticallyAdjustsScrollViewInsets，extendedLayoutIncludesOpaqueBars，edgesForExtendedLayout的不同</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Walker Guo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
